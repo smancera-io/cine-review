@@ -56,33 +56,36 @@ CREATE TABLE director (
 
 CREATE TABLE actor (
 	id        CHAR(36) DEFAULT (UUID()),
-    award_id  CHAR(36),
-    PRIMARY KEY (id),
-    CONSTRAINT fk_director_person 
-        FOREIGN KEY (id) REFERENCES person(id) 
-        ON DELETE CASCADE
+  award_id  CHAR(36),
+
+  PRIMARY KEY (id),
+  CONSTRAINT fk_actor_person 
+      FOREIGN KEY (id) REFERENCES person(id) 
+      ON DELETE CASCADE
 );
 
 CREATE TABLE user_role (
 	id CHAR(36) DEFAULT (UUID()),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
+  name VARCHAR(50) NOT NULL UNIQUE,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE user (
 	id            CHAR(36) DEFAULT (UUID()),
-	name 	      VARCHAR(50) NOT NULL,
-    lastName      VARCHAR(50) NOT NULL,
+  role_id       CHAR (36) NOT NULL,
+
+	name          VARCHAR(50) NOT NULL,
+  lastName      VARCHAR(50) NOT NULL,
 	country_id    CHAR(36),
-	birth_date 	  DATE,
+	birth_date    DATE,
 	email         VARCHAR(255) NOT NULL UNIQUE,
 	password_hash VARCHAR(255) NOT NULL,
 	created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    role_id CHAR (36) NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_country_id 
+
+  PRIMARY KEY (id),
+  CONSTRAINT fk_country_id 
 		FOREIGN KEY (country_id) REFERENCES country(id),
-	CONSTRAINT fk_role_id
+	CONSTRAINT fk_user_role_id
 		FOREIGN KEY (role_id) REFERENCES user_role(id)
 );
 
@@ -92,7 +95,7 @@ CREATE TABLE production_company (
 	country_id   CHAR(36),
 	founded_year DATE,
     PRIMARY KEY (id),
-    CONSTRAINT fk_country_id
+    CONSTRAINT fk_pc_country_id
 		FOREIGN KEY (country_id) REFERENCES country(id) 
         ON DELETE SET NULL
 );
@@ -109,11 +112,23 @@ CREATE TABLE streaming_platform (
 	country_id        CHAR(36),
 	subscription_type_id CHAR(36),
     PRIMARY KEY (id),
-    CONSTRAINT fk_country_id
+    CONSTRAINT fk_sp_country_id
 		FOREIGN KEY (country_id) REFERENCES country(id) 
         ON DELETE SET NULL,
 	CONSTRAINT fk_subscription_type_id
 		FOREIGN KEY(subscription_type_id) REFERENCES subscription_type(id)
+);
+
+create TABLE clasification (
+  id          CHAR(36) DEFAULT (UUID()),
+
+  system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
+  name        VARCHAR (50) NOT NULL, -- G, PG, PG13, etc.
+  description TEXT,
+  min_age     INT,
+
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE movie (
@@ -278,30 +293,19 @@ CREATE TABLE director_role (
 );
 
 CREATE TABLE movie_director (
-	movie_id     CHAR(36) NOT NULL, 
-    director_id  CHAR(36) NOT NULL,
-	rol_id       CHAR(36) NOT NULL,
+	movie_id     CHAR(36) NOT NULL,
+  director_id  CHAR(36) NOT NULL,
+	role_id       CHAR(36) NOT NULL,
+
 	PRIMARY KEY (movie_id, director_id),
-    CONSTRAINT fk_movie_id
-		FOREIGN KEY (movie_id) REFERENCES movie(id) 
+  CONSTRAINT fk_movie_id
+		FOREIGN KEY (movie_id) REFERENCES movie(id)
 		ON DELETE CASCADE,
 	CONSTRAINT fk_director_id
 		FOREIGN KEY (director_id) REFERENCES director(id) 
 		ON DELETE CASCADE,
-	CONSTRAINT fk_rol_id
+	CONSTRAINT fk_md_role_id
 		FOREIGN KEY (role_id) REFERENCES director_role (id)
-);
-
-create TABLE clasification (
-  id          CHAR(36) DEFAULT (UUID()),
-
-  system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
-  name        VARCHAR (50) NOT NULL, -- G, PG, PG13, etc.
-  description TEXT,
-  min_age     INT,
-
-  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 );
 
 
