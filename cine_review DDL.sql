@@ -121,8 +121,7 @@ CREATE TABLE streaming_platform (
 
 create TABLE clasification (
   id          CHAR(36) DEFAULT (UUID()),
-
-  system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
+  clasification_system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
   name        VARCHAR (50) NOT NULL, -- G, PG, PG13, etc.
   description TEXT,
   min_age     INT,
@@ -228,7 +227,7 @@ CREATE TABLE movie_award (
 	year     YEAR NOT NULL, 
 	won      BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id),
-    CONSTRAINT fk_ma_movie_id
+    CONSTRAINT fk_mw_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id)  
         ON DELETE CASCADE,
 	CONSTRAINT fk_award_id
@@ -246,7 +245,7 @@ CREATE TABLE person_award (
     PRIMARY KEY (id),
     CONSTRAINT fk_person_id  
         FOREIGN KEY (person_id)   REFERENCES person(id)          ON DELETE CASCADE,
-    CONSTRAINT fk_award_id   
+    CONSTRAINT fk_pa_award_id   
         FOREIGN KEY (award_id)    REFERENCES award(id)           ON DELETE CASCADE,
     CONSTRAINT uq_person_nomination 
         UNIQUE (person_id, award_id, year)
