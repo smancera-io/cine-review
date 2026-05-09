@@ -178,7 +178,7 @@ CREATE TABLE movie_actor (
 	character_name VARCHAR(150), 
     is_lead        BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY (movie_id, actor_id),
-    CONSTRAINT fk_movie_id
+    CONSTRAINT fk_ma_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id) 
 		ON DELETE CASCADE,
 	CONSTRAINT fk_actor_id
@@ -189,7 +189,7 @@ CREATE TABLE movie_genre (
 	movie_id CHAR(36) NOT NULL, 
 	genre_id CHAR(36) NOT NULL,
 	PRIMARY KEY (movie_id, genre_id),
-    CONSTRAINT fk_movie_id
+    CONSTRAINT fk_mg_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id) 
         ON DELETE CASCADE,
 	CONSTRAINT fk_genre_id
@@ -213,7 +213,7 @@ CREATE TABLE watchlist (
     CONSTRAINT fk_user_id
 		FOREIGN KEY (user_id)  REFERENCES user(id)  
         ON DELETE CASCADE,
-	CONSTRAINT fk_movie_id
+	CONSTRAINT fk_watchlist_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id) 
         ON DELETE CASCADE,
 	CONSTRAINT fk_status_id
@@ -228,7 +228,7 @@ CREATE TABLE movie_award (
 	year     YEAR NOT NULL, 
 	won      BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id),
-    CONSTRAINT fk_movie_id
+    CONSTRAINT fk_ma_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id)  
         ON DELETE CASCADE,
 	CONSTRAINT fk_award_id
@@ -263,7 +263,7 @@ CREATE TABLE movie_company (
 	company_id CHAR(36) NOT NULL,
 	role_id    CHAR(36) NOT NULL,
 	PRIMARY KEY (movie_id, company_id),
-    CONSTRAINT fk_movie_id
+    CONSTRAINT fk_cr_movie_id
 		FOREIGN KEY (movie_id)   REFERENCES movie(id)               
 		ON DELETE CASCADE,
 	CONSTRAINT fk_company_id
@@ -280,7 +280,7 @@ CREATE TABLE movie_platforms (
 	PRIMARY KEY (movie_id, platform_id),
 	CONSTRAINT chk_dates 
 		CHECK (available_until IS NULL OR available_until > available_since),
-	CONSTRAINT fk_movie_id
+	CONSTRAINT fk_mp_movie_id
 		FOREIGN KEY (movie_id)    REFERENCES movie(id)              
         ON DELETE CASCADE,
 	CONSTRAINT fk_platform_id
@@ -300,7 +300,7 @@ CREATE TABLE movie_director (
 	role_id       CHAR(36) NOT NULL,
 
 	PRIMARY KEY (movie_id, director_id),
-  CONSTRAINT fk_movie_id
+  CONSTRAINT fk_dr_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id)
 		ON DELETE CASCADE,
 	CONSTRAINT fk_director_id
