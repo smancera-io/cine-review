@@ -70,10 +70,9 @@ CREATE TABLE user_role (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE user (
+CREATE TABLE app_user (
 	id            CHAR(36) DEFAULT (UUID()),
   role_id       CHAR (36) NOT NULL,
-
 	name          VARCHAR(50) NOT NULL,
   lastName      VARCHAR(50) NOT NULL,
 	country_id    CHAR(36),
