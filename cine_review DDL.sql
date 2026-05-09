@@ -47,7 +47,7 @@ CREATE TABLE person (
 );
 
 CREATE TABLE director (
-	id CHAR(36) DEFAULT (UUID()),
+	id CHAR(36) ,
     directing_style VARCHAR(100),
     PRIMARY KEY (id),
     CONSTRAINT fk_director_person 
@@ -56,7 +56,7 @@ CREATE TABLE director (
 );
 
 CREATE TABLE actor (
-	id			  CHAR(36) DEFAULT (UUID()),
+	id			  CHAR(36),
     acting_method VARCHAR(100),
 	PRIMARY KEY (id),
 	CONSTRAINT fk_actor_person 
