@@ -159,7 +159,7 @@ CREATE TABLE review (
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
 	CONSTRAINT fk_rv_user  
-		FOREIGN KEY (user_id)  REFERENCES user(id)  
+		FOREIGN KEY (user_id)  REFERENCES app_user(id)  
         ON DELETE CASCADE,
 	CONSTRAINT fk_rv_movie 
 		FOREIGN KEY (movie_id) REFERENCES movie(id) 
@@ -209,7 +209,7 @@ CREATE TABLE watchlist (
 	added_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY  (id),
     CONSTRAINT fk_user_id
-		FOREIGN KEY (user_id)  REFERENCES user(id)  
+		FOREIGN KEY (user_id)  REFERENCES app_user(id)  
         ON DELETE CASCADE,
 	CONSTRAINT fk_watchlist_movie_id
 		FOREIGN KEY (movie_id) REFERENCES movie(id) 
