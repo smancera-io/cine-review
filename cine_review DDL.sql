@@ -48,6 +48,7 @@ CREATE TABLE person (
 
 CREATE TABLE director (
 	id CHAR(36) DEFAULT (UUID()),
+    directing_style VARCHAR(100),
     PRIMARY KEY (id),
     CONSTRAINT fk_director_person 
         FOREIGN KEY (id) REFERENCES person(id) 
@@ -55,11 +56,10 @@ CREATE TABLE director (
 );
 
 CREATE TABLE actor (
-	id        CHAR(36) DEFAULT (UUID()),
-  award_id  CHAR(36),
-
-  PRIMARY KEY (id),
-  CONSTRAINT fk_actor_person 
+	id			  CHAR(36) DEFAULT (UUID()),
+    acting_method VARCHAR(100),
+	PRIMARY KEY (id),
+	CONSTRAINT fk_actor_person 
       FOREIGN KEY (id) REFERENCES person(id) 
       ON DELETE CASCADE
 );
