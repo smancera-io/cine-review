@@ -74,7 +74,7 @@ CREATE TABLE app_user (
 	id            CHAR(36) DEFAULT (UUID()),
   role_id       CHAR (36) NOT NULL,
 	name          VARCHAR(50) NOT NULL,
-  lastName      VARCHAR(50) NOT NULL,
+  last_name      VARCHAR(50) NOT NULL,
 	country_id    CHAR(36),
 	birth_date    DATE,
 	email         VARCHAR(255) NOT NULL UNIQUE,
@@ -270,7 +270,7 @@ CREATE TABLE movie_company (
 	CONSTRAINT fk_role_id
 		FOREIGN KEY (role_id) REFERENCES company_role(id)
 );
-CREATE TABLE movie_platforms (
+CREATE TABLE movie_platform (
 	movie_id        CHAR(36) NOT NULL, 
 	platform_id     CHAR(36) NOT NULL,
 	available_since DATE, 
