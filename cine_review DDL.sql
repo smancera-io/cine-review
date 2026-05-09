@@ -118,7 +118,7 @@ CREATE TABLE streaming_platform (
 		FOREIGN KEY(subscription_type_id) REFERENCES subscription_type(id)
 );
 
-create TABLE clasification (
+create TABLE classification (
   id          CHAR(36) DEFAULT (UUID()),
   clasification_system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
   name        VARCHAR (50) NOT NULL, -- G, PG, PG13, etc.
