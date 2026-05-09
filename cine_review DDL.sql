@@ -83,7 +83,7 @@ CREATE TABLE user (
 	created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (id),
-  CONSTRAINT fk_country_id 
+  CONSTRAINT fk_user_country_id 
 		FOREIGN KEY (country_id) REFERENCES country(id),
 	CONSTRAINT fk_user_role_id
 		FOREIGN KEY (role_id) REFERENCES user_role(id)
@@ -128,7 +128,9 @@ create TABLE clasification (
   min_age     INT,
 
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE movie (
