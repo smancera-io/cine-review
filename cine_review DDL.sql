@@ -25,13 +25,10 @@ CREATE TABLE award (
 	name         VARCHAR(150) NOT NULL UNIQUE,
 	country_id   CHAR(36),
 	founded_year YEAR,
-    category_id CHAR(36) NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT fk_country_id
 		FOREIGN KEY (country_id) REFERENCES country(id) 
-        ON DELETE SET NULL,
-	CONSTRAINT fk_category_id
-		FOREIGN KEY (category_id) REFERENCES award_category(id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE person (
@@ -223,6 +220,7 @@ CREATE TABLE movie_award (
 	id 		 CHAR(36) DEFAULT (UUID()),
 	movie_id CHAR(36) NOT NULL, 
     award_id CHAR(36) NOT NULL,
+    category_id CHAR(36) NOT NULL,
 	year     YEAR NOT NULL, 
 	won      BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id),
@@ -232,13 +230,17 @@ CREATE TABLE movie_award (
 	CONSTRAINT fk_award_id
 		FOREIGN KEY (award_id) REFERENCES award(id)  
         ON DELETE CASCADE,
-	CONSTRAINT uq_nomination 
-		UNIQUE (movie_id, award_id, year)
+	CONSTRAINT fk_maw_category_id
+		FOREIGN KEY (category_id) REFERENCES award_category(id)
+		ON DELETE RESTRICT,
+	CONSTRAINT uq_movie_nomination
+		UNIQUE (movie_id, award_id, year, category_id)
 );
 CREATE TABLE person_award (
     id          CHAR(36) DEFAULT (UUID()),
     person_id   CHAR(36) NOT NULL,
     award_id    CHAR(36) NOT NULL,
+    category_id CHAR(36) NOT NULL,
     year        YEAR NOT NULL,
     won         BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id),
@@ -246,8 +248,11 @@ CREATE TABLE person_award (
         FOREIGN KEY (person_id)   REFERENCES person(id)          ON DELETE CASCADE,
     CONSTRAINT fk_pa_award_id   
         FOREIGN KEY (award_id)    REFERENCES award(id)           ON DELETE CASCADE,
-    CONSTRAINT uq_person_nomination 
-        UNIQUE (person_id, award_id, year)
+	CONSTRAINT fk_paw_category_id
+		FOREIGN KEY (category_id) REFERENCES award_category(id)
+		ON DELETE RESTRICT,
+   CONSTRAINT uq_person_nomination
+		UNIQUE (person_id, award_id, year, category_id)
 );
 
 CREATE TABLE company_role (
