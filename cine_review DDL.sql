@@ -24,7 +24,7 @@ CREATE TABLE award (
 	id           CHAR(36) DEFAULT (UUID()),
 	name         VARCHAR(150) NOT NULL UNIQUE,
 	country_id   CHAR(36),
-	founded_year DATE,
+	founded_year YEAR,
     category_id CHAR(36) NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT fk_country_id
@@ -92,7 +92,7 @@ CREATE TABLE production_company (
 	id           CHAR(36) DEFAULT (UUID()),
 	name         VARCHAR(200) NOT NULL UNIQUE,
 	country_id   CHAR(36),
-	founded_year DATE,
+	founded_year YEAR,
     PRIMARY KEY (id),
     CONSTRAINT fk_pc_country_id
 		FOREIGN KEY (country_id) REFERENCES country(id) 
