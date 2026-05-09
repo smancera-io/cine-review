@@ -118,14 +118,20 @@ CREATE TABLE streaming_platform (
 
 CREATE TABLE movie (
 	id           CHAR(36) DEFAULT (UUID()),
+	country_id   CHAR(36),
+  clasification_id CHAR(36),
+
 	title        VARCHAR(255) NOT NULL,
 	release_year YEAR,
 	synopsis     TEXT,
-	country_id   CHAR(36),     
 	tmdb_id      INT UNIQUE,
-    PRIMARY KEY (id),
-	CONSTRAINT fk_movie_country  
-		FOREIGN KEY (country_id)  REFERENCES country(id) 
+
+  PRIMARY KEY (id),
+	CONSTRAINT fk_movie_country
+		FOREIGN KEY (country_id)  REFERENCES country(id)
+        ON DELETE SET NULL,
+	CONSTRAINT fk_movie_clasification
+		FOREIGN KEY (clasification_id) REFERENCES clasification(id)
         ON DELETE SET NULL
 );
 
@@ -212,7 +218,7 @@ CREATE TABLE movie_award (
 		FOREIGN KEY (award_id) REFERENCES award(id)  
         ON DELETE CASCADE,
 	CONSTRAINT uq_nomination 
-		UNIQUE (movie_id, award_id, year, category)
+		UNIQUE (movie_id, award_id, year)
 );
 CREATE TABLE person_award (
     id          CHAR(36) DEFAULT (UUID()),
@@ -285,3 +291,17 @@ CREATE TABLE movie_director (
 	CONSTRAINT fk_rol_id
 		FOREIGN KEY (role_id) REFERENCES director_role (id)
 );
+
+create TABLE clasification (
+  id          CHAR(36) DEFAULT (UUID()),
+
+  system      VARCHAR(100) NOT NULL, -- PEGI, MPA, etc.
+  name        VARCHAR (50) NOT NULL, -- G, PG, PG13, etc.
+  description TEXT,
+  min_age     INT,
+
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
+
