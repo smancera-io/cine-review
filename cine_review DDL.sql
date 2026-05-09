@@ -134,7 +134,7 @@ create TABLE classification (
 CREATE TABLE movie (
 	id           CHAR(36) DEFAULT (UUID()),
 	country_id   CHAR(36),
-  clasification_id CHAR(36),
+  classification_id CHAR(36),
 
 	title        VARCHAR(255) NOT NULL,
 	release_year YEAR,
@@ -145,8 +145,8 @@ CREATE TABLE movie (
 	CONSTRAINT fk_movie_country
 		FOREIGN KEY (country_id)  REFERENCES country(id)
         ON DELETE SET NULL,
-	CONSTRAINT fk_movie_clasification
-		FOREIGN KEY (clasification_id) REFERENCES clasification(id)
+	CONSTRAINT fk_movie_classification
+		FOREIGN KEY (classification_id) REFERENCES classification(id)
         ON DELETE SET NULL
 );
 
