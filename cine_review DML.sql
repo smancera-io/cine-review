@@ -33,3 +33,12 @@ INSERT INTO genre (id, name) VALUES
 SET @ac_film  = UUID(); SET @ac_dir   = UUID(); SET @ac_actor = UUID();
 SET @ac_act   = UUID(); SET @ac_scrpt = UUID(); SET @ac_photo = UUID();
 SET @ac_intl  = UUID();
+
+INSERT INTO award_category (id, name) VALUES
+(@ac_film,  'Mejor Película'),
+(@ac_dir,   'Mejor Director'),
+(@ac_actor, 'Mejor Actor Principal'),
+(@ac_act,   'Mejor Actriz Principal'),
+(@ac_scrpt, 'Mejor Guión Original'),
+(@ac_photo, 'Mejor Fotografía'),
+(@ac_intl,  'Mejor Película Internacional');
