@@ -133,4 +133,7 @@ INSERT INTO production_company (id, name, country_id, founded_year) VALUES
 (@pc_neon,   'NEON',                 @us, 2017),
 (@pc_param,  'Paramount Pictures',   @us, 1912),
 (@pc_focus,  'Focus Features',       @us, 2002);
+
+SET @sp_nflx   = UUID(); SET @sp_hbo  = UUID();
+SET @sp_amazon = UUID(); SET @sp_mubi = UUID();
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
