@@ -307,3 +307,20 @@ INSERT INTO movie_actor (movie_id, actor_id, character_name, is_lead) VALUES
 (@mv_arrival,   @p_adams,   'Louise Banks',     TRUE),
 (@mv_eeaao,     @p_yeoh,    'Evelyn Wang',      TRUE),
 (@mv_knight,    @p_murphy,  'Jonathan Crane',   FALSE);
+
+INSERT INTO movie_company (movie_id, company_id, role_id) VALUES
+(@mv_inception, @pc_wb,     @cr_prod),
+(@mv_inception, @pc_legend, @cr_co),
+(@mv_parasite,  @pc_cj,     @cr_prod),
+(@mv_stellar,   @pc_wb,     @cr_prod),
+(@mv_stellar,   @pc_legend, @cr_co),
+(@mv_dune,      @pc_wb,     @cr_prod),
+(@mv_dune,      @pc_legend, @cr_co),
+(@mv_roma,      @pc_nflx,   @cr_prod),
+(@mv_barbie,    @pc_wb,     @cr_prod),
+(@mv_knight,    @pc_wb,     @cr_prod),
+(@mv_knight,    @pc_legend, @cr_co),
+(@mv_arrival,   @pc_param,  @cr_prod),
+(@mv_moonlight, @pc_a24,    @cr_prod),
+(@mv_blade,     @pc_wb,     @cr_prod),
+(@mv_eeaao,     @pc_a24,    @cr_prod);
