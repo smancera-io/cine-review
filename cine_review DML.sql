@@ -123,4 +123,14 @@ INSERT INTO award (id, name, country_id, founded_year) VALUES
 SET @pc_wb     = UUID(); SET @pc_a24    = UUID(); SET @pc_cj     = UUID();
 SET @pc_legend = UUID(); SET @pc_nflx   = UUID(); SET @pc_neon   = UUID();
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
+
+INSERT INTO production_company (id, name, country_id, founded_year) VALUES
+(@pc_wb,     'Warner Bros. Pictures', @us, 1923),
+(@pc_a24,    'A24',                   @us, 2012),
+(@pc_cj,     'CJ ENM',               @kr, 1995),
+(@pc_legend, 'Legendary Pictures',   @us, 2000),
+(@pc_nflx,   'Netflix Studios',      @us, 2005),
+(@pc_neon,   'NEON',                 @us, 2017),
+(@pc_param,  'Paramount Pictures',   @us, 1912),
+(@pc_focus,  'Focus Features',       @us, 2002);
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
