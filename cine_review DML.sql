@@ -42,3 +42,6 @@ INSERT INTO award_category (id, name) VALUES
 (@ac_scrpt, 'Mejor Guión Original'),
 (@ac_photo, 'Mejor Fotografía'),
 (@ac_intl,  'Mejor Película Internacional');
+
+SET @ds_epic   = UUID(); SET @ds_neo    = UUID(); SET @ds_psych  = UUID();
+SET @ds_social = UUID(); SET @ds_sci    = UUID(); SET @ds_dark   = UUID();
