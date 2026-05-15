@@ -29,3 +29,7 @@ INSERT INTO genre (id, name) VALUES
 (@g_doc,      'Documental'),
 (@g_romance,  'Romance'),
 (@g_bio,      'Biográfico');
+
+SET @ac_film  = UUID(); SET @ac_dir   = UUID(); SET @ac_actor = UUID();
+SET @ac_act   = UUID(); SET @ac_scrpt = UUID(); SET @ac_photo = UUID();
+SET @ac_intl  = UUID();
