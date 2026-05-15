@@ -62,3 +62,7 @@ INSERT INTO acting_method (id, name) VALUES
 (@am_brec, 'Teatro Épico Brechtiano');
 
 SET @r_admin = UUID(); SET @r_user = UUID();
+
+INSERT INTO user_role (id, name) VALUES
+(@r_admin, 'ADMIN'),
+(@r_user,  'USER');
