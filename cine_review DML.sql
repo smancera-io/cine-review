@@ -279,3 +279,17 @@ INSERT INTO movie (id, country_id, classification_id, title, release_year, synop
 (@mv_moonlight, @p_jenkins,  @dr_dir),
 (@mv_blade,     @p_vil,      @dr_dir),
 (@mv_eeaao,     @p_dan_k,    @dr_dir);
+
+INSERT INTO movie_genre (movie_id, genre_id) VALUES
+(@mv_inception, @g_scifi),    (@mv_inception, @g_action),   (@mv_inception, @g_thriller),
+(@mv_parasite,  @g_drama),    (@mv_parasite,  @g_thriller),  (@mv_parasite,  @g_comedy),
+(@mv_stellar,   @g_scifi),    (@mv_stellar,   @g_drama),
+(@mv_dune,      @g_scifi),    (@mv_dune,      @g_action),
+(@mv_roma,      @g_drama),    (@mv_roma,      @g_doc),
+(@mv_barbie,    @g_comedy),   (@mv_barbie,    @g_drama),
+(@mv_abrazo,    @g_drama),    (@mv_abrazo,    @g_doc),
+(@mv_knight,    @g_action),   (@mv_knight,    @g_thriller),
+(@mv_arrival,   @g_scifi),    (@mv_arrival,   @g_drama),    (@mv_arrival,   @g_thriller),
+(@mv_moonlight, @g_drama),
+(@mv_blade,     @g_scifi),    (@mv_blade,     @g_thriller),
+(@mv_eeaao,     @g_scifi),    (@mv_eeaao,     @g_action),   (@mv_eeaao,     @g_comedy);
