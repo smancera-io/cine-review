@@ -75,3 +75,6 @@ INSERT INTO subscription_type (id, name) VALUES
 (@st_rent, 'RENT'),
 (@st_free, 'FREE'),
 (@st_buy,  'PURCHASE');
+
+SET @cl_g    = UUID(); SET @cl_pg   = UUID(); SET @cl_pg13 = UUID();
+SET @cl_r    = UUID(); SET @cl_nc17 = UUID();
