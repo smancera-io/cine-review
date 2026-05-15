@@ -265,3 +265,17 @@ INSERT INTO movie (id, country_id, classification_id, title, release_year, synop
 (@mv_eeaao,     @us, @cl_r,    'Everything Everywhere All at Once', 2022,
     'Una lavandera es arrastrada a una aventura interdimensional para salvar el multiverso.',
     545611);
+    
+    INSERT INTO movie_director (movie_id, director_id, role_id) VALUES
+(@mv_inception, @p_nolan,    @dr_dir),
+(@mv_parasite,  @p_bong,     @dr_dir),
+(@mv_stellar,   @p_nolan,    @dr_dir),
+(@mv_dune,      @p_vil,      @dr_dir),
+(@mv_roma,      @p_cuaron,   @dr_dir),
+(@mv_barbie,    @p_gerwig,   @dr_dir),
+(@mv_abrazo,    @p_guerra,   @dr_dir),
+(@mv_knight,    @p_nolan,    @dr_dir),
+(@mv_arrival,   @p_vil,      @dr_dir),
+(@mv_moonlight, @p_jenkins,  @dr_dir),
+(@mv_blade,     @p_vil,      @dr_dir),
+(@mv_eeaao,     @p_dan_k,    @dr_dir);
