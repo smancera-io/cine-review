@@ -45,3 +45,11 @@ INSERT INTO award_category (id, name) VALUES
 
 SET @ds_epic   = UUID(); SET @ds_neo    = UUID(); SET @ds_psych  = UUID();
 SET @ds_social = UUID(); SET @ds_sci    = UUID(); SET @ds_dark   = UUID();
+
+INSERT INTO directing_style (id, name) VALUES
+(@ds_epic,   'Cine Épico'),
+(@ds_neo,    'Neorrealismo'),
+(@ds_psych,  'Thriller Psicológico'),
+(@ds_social, 'Drama Social'),
+(@ds_sci,    'Ciencia Ficción Conceptual'),
+(@ds_dark,   'Comedia Oscura');
