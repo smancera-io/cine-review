@@ -324,3 +324,18 @@ INSERT INTO movie_company (movie_id, company_id, role_id) VALUES
 (@mv_moonlight, @pc_a24,    @cr_prod),
 (@mv_blade,     @pc_wb,     @cr_prod),
 (@mv_eeaao,     @pc_a24,    @cr_prod);
+
+INSERT INTO movie_platform (movie_id, platform_id, available_since, available_until) VALUES
+(@mv_inception, @sp_hbo,    '2021-01-01', NULL),
+(@mv_parasite,  @sp_nflx,   '2020-04-08', NULL),
+(@mv_stellar,   @sp_amazon, '2020-01-01', '2023-12-31'),
+(@mv_stellar,   @sp_nflx,   '2024-01-01', NULL),
+(@mv_dune,      @sp_hbo,    '2021-10-22', NULL),
+(@mv_roma,      @sp_nflx,   '2018-12-14', NULL),
+(@mv_barbie,    @sp_hbo,    '2023-09-12', '2024-09-11'),
+(@mv_abrazo,    @sp_mubi,   '2022-03-01', NULL),
+(@mv_knight,    @sp_hbo,    '2020-06-01', NULL),
+(@mv_arrival,   @sp_amazon, '2021-03-15', NULL),
+(@mv_moonlight, @sp_nflx,   '2021-07-01', NULL),
+(@mv_blade,     @sp_amazon, '2022-01-01', NULL),
+(@mv_eeaao,     @sp_amazon, '2022-08-01', NULL);
