@@ -94,3 +94,5 @@ INSERT INTO company_role (id, name) VALUES
 (@cr_dist, 'DISTRIBUTOR'),
 (@cr_co,   'CO_PRODUCER'),
 (@cr_exec, 'EXECUTIVE_PRODUCER');
+
+SET @dr_dir  = UUID(); SET @dr_codir = UUID(); SET @dr_2nd = UUID();
