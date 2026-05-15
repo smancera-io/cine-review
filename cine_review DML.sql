@@ -151,4 +151,30 @@ SET @p_dicap    = UUID(); SET @p_kangho   = UUID(); SET @p_chalm    = UUID();
 SET @p_cotil    = UUID(); SET @p_sodam    = UUID(); SET @p_ali      = UUID();
 SET @p_hardy    = UUID(); SET @p_adams    = UUID(); SET @p_zend     = UUID();
 SET @p_gosling  = UUID(); SET @p_murphy   = UUID(); SET @p_yeoh     = UUID();
+
+INSERT INTO person (id, name, last_name, birth_date, country_id) VALUES
+(@p_nolan,    'Christopher', 'Nolan',      '1970-07-30', @uk),
+(@p_bong,     'Bong',        'Joon-ho',    '1969-09-14', @kr),
+(@p_vil,      'Denis',       'Villeneuve', '1967-10-03', @ca),
+(@p_gerwig,   'Greta',       'Gerwig',     '1983-08-04', @us),
+(@p_cuaron,   'Alfonso',     'Cuarón',     '1961-11-28', @mx),
+(@p_inarr,    'Alejandro',   'Iñárritu',   '1963-08-15', @mx),
+(@p_jenkins,  'Barry',       'Jenkins',    '1979-11-19', @us),
+(@p_sciamma,  'Céline',      'Sciamma',    '1978-11-12', @fr),
+(@p_guerra,   'Ciro',        'Guerra',     '1981-02-06', @co),
+(@p_dan_k,    'Daniel',      'Kwan',       '1988-02-14', @us),
+(@p_chazelle, 'Damien',      'Chazelle',   '1985-01-19', @us),
+(@p_mendes,   'Sam',         'Mendes',     '1965-08-01', @uk),
+(@p_dicap,    'Leonardo',    'DiCaprio',   '1974-11-11', @us),
+(@p_kangho,   'Song',        'Kang-ho',    '1967-01-17', @kr),
+(@p_chalm,    'Timothée',    'Chalamet',   '1995-12-27', @us),
+(@p_cotil,    'Marion',      'Cotillard',  '1975-09-30', @fr),
+(@p_sodam,    'Park',        'So-dam',     '1991-09-08', @kr),
+(@p_ali,      'Mahershala',  'Ali',        '1974-02-16', @us),
+(@p_hardy,    'Tom',         'Hardy',      '1977-09-15', @uk),
+(@p_adams,    'Amy',         'Adams',      '1974-08-20', @us),
+(@p_zend,     'Zendaya',     'Coleman',    '1996-09-01', @us),
+(@p_gosling,  'Ryan',        'Gosling',    '1980-11-12', @ca),
+(@p_murphy,   'Cillian',     'Murphy',     '1976-05-25', @uk),
+(@p_yeoh,     'Michelle',    'Yeoh',       '1962-08-06', @us);
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
