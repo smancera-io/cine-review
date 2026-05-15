@@ -60,3 +60,5 @@ INSERT INTO acting_method (id, name) VALUES
 (@am_stan, 'Método Stanislavski'),
 (@am_meis, 'Técnica Meisner'),
 (@am_brec, 'Teatro Épico Brechtiano');
+
+SET @r_admin = UUID(); SET @r_user = UUID();
