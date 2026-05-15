@@ -53,3 +53,5 @@ INSERT INTO directing_style (id, name) VALUES
 (@ds_social, 'Drama Social'),
 (@ds_sci,    'Ciencia Ficción Conceptual'),
 (@ds_dark,   'Comedia Oscura');
+
+SET @am_stan = UUID(); SET @am_meis = UUID(); SET @am_brec = UUID();
