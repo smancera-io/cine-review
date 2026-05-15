@@ -104,3 +104,9 @@ INSERT INTO director_role (id, name) VALUES
 
 SET @ws_pend = UUID(); SET @ws_wtch = UUID();
 SET @ws_done = UUID(); SET @ws_drop = UUID();
+
+INSERT INTO status_watchlist (id, name) VALUES
+(@ws_pend, 'PENDING'),
+(@ws_wtch, 'WATCHING'),
+(@ws_done, 'WATCHED'),
+(@ws_drop, 'DROPPED');
