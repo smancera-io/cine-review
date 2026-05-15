@@ -205,4 +205,7 @@ INSERT INTO actor (id, acting_method_id) VALUES
 (@p_gosling, @am_meis),
 (@p_murphy,  @am_stan),
 (@p_yeoh,    @am_meis);
+
+SET @u_admin  = UUID(); SET @u_carlos = UUID(); SET @u_laura  = UUID();
+SET @u_minjun = UUID(); SET @u_jiwoo  = UUID();
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
