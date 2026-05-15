@@ -208,4 +208,16 @@ INSERT INTO actor (id, acting_method_id) VALUES
 
 SET @u_admin  = UUID(); SET @u_carlos = UUID(); SET @u_laura  = UUID();
 SET @u_minjun = UUID(); SET @u_jiwoo  = UUID();
+
+INSERT INTO app_user (id, role_id, name, last_name, country_id, birth_date, email, password_hash) VALUES
+(@u_admin,  @r_admin, 'Admin',   'Sistema',   @co, '1990-01-01',
+    'admin@cinereview.com',       '$2a$12$KIXkJ8Q1HgZ5mN3tWvP0XOdY7RjA4sLbCuFqEwMnTzGpHyVxIaD2'),
+(@u_carlos, @r_user,  'Carlos',  'Rodríguez', @co, '1995-03-15',
+    'carlos.rodriguez@email.com', '$2a$12$AbCdEfGhIjKlMnOpQrStUvWxYz01234567890AbCdEfGhIjKlMnOp'),
+(@u_laura,  @r_user,  'Laura',   'Martínez',  @mx, '1998-07-22',
+    'laura.martinez@email.com',   '$2a$12$ZyXwVuTsRqPoNmLkJiHgFeDcBa9876543210ZyXwVuTsRqPoNmLk'),
+(@u_minjun, @r_user,  'Min-jun', 'Lee',       @kr, '2000-11-05',
+    'minjun.lee@email.com',       '$2a$12$1A2B3C4D5E6F7G8H9I0JkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhH'),
+(@u_jiwoo,  @r_user,  'Ji-woo',  'Kim',       @kr, '2002-04-20',
+    'jiwoo.kim@email.com',        '$2a$12$MnOpQrStUvWxYz0123456789AbCdEfGhIjKlMnOpQrStUvWxYzAb');
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
