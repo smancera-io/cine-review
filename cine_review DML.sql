@@ -110,3 +110,6 @@ INSERT INTO status_watchlist (id, name) VALUES
 (@ws_wtch, 'WATCHING'),
 (@ws_done, 'WATCHED'),
 (@ws_drop, 'DROPPED');
+
+SET @aw_oscar  = UUID(); SET @aw_bafta  = UUID();
+SET @aw_cannes = UUID(); SET @aw_fcc    = UUID();
