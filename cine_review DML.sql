@@ -293,3 +293,17 @@ INSERT INTO movie_genre (movie_id, genre_id) VALUES
 (@mv_moonlight, @g_drama),
 (@mv_blade,     @g_scifi),    (@mv_blade,     @g_thriller),
 (@mv_eeaao,     @g_scifi),    (@mv_eeaao,     @g_action),   (@mv_eeaao,     @g_comedy);
+
+INSERT INTO movie_actor (movie_id, actor_id, character_name, is_lead) VALUES
+(@mv_inception, @p_dicap,   'Dom Cobb',        TRUE),
+(@mv_inception, @p_cotil,   'Mal Cobb',         FALSE),
+(@mv_inception, @p_hardy,   'Eames',            FALSE),
+(@mv_parasite,  @p_kangho,  'Ki-taek',          TRUE),
+(@mv_parasite,  @p_sodam,   'Ki-jung',          FALSE),
+(@mv_dune,      @p_chalm,   'Paul Atreides',    TRUE),
+(@mv_dune,      @p_zend,    'Chani',            FALSE),
+(@mv_moonlight, @p_ali,     'Juan',             TRUE),
+(@mv_blade,     @p_gosling, 'K / Joe',          TRUE),
+(@mv_arrival,   @p_adams,   'Louise Banks',     TRUE),
+(@mv_eeaao,     @p_yeoh,    'Evelyn Wang',      TRUE),
+(@mv_knight,    @p_murphy,  'Jonathan Crane',   FALSE);
