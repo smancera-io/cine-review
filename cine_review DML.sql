@@ -360,3 +360,15 @@ INSERT INTO review (user_id, movie_id, rating, body) VALUES
 (@u_minjun, @mv_moonlight, 10, 'Una de las películas más importantes de la última década.'),
 (@u_jiwoo,  @mv_arrival,   10, 'El lenguaje como clave del tiempo. Brillante.'),
 (@u_jiwoo,  @mv_eeaao,     9,  'Absurda, emotiva y profunda. Completamente única.');
+
+INSERT INTO watchlist (user_id, movie_id, status_id) VALUES
+(@u_carlos, @mv_roma,      @ws_done),
+(@u_carlos, @mv_barbie,    @ws_pend),
+(@u_carlos, @mv_abrazo,    @ws_pend),
+(@u_laura,  @mv_dune,      @ws_wtch),
+(@u_laura,  @mv_abrazo,    @ws_pend),
+(@u_laura,  @mv_knight,    @ws_done),
+(@u_minjun, @mv_barbie,    @ws_pend),
+(@u_minjun, @mv_blade,     @ws_done),
+(@u_jiwoo,  @mv_inception, @ws_done),
+(@u_jiwoo,  @mv_parasite,  @ws_done);
