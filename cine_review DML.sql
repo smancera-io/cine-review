@@ -17,3 +17,15 @@ SET @g_scifi    = UUID(); SET @g_drama    = UUID(); SET @g_thriller = UUID();
 SET @g_horror   = UUID(); SET @g_comedy   = UUID(); SET @g_action   = UUID();
 SET @g_anim     = UUID(); SET @g_doc      = UUID(); SET @g_romance  = UUID();
 SET @g_bio      = UUID();
+
+INSERT INTO genre (id, name) VALUES
+(@g_scifi,    'Ciencia Ficción'),
+(@g_drama,    'Drama'),
+(@g_thriller, 'Thriller'),
+(@g_horror,   'Terror'),
+(@g_comedy,   'Comedia'),
+(@g_action,   'Acción'),
+(@g_anim,     'Animación'),
+(@g_doc,      'Documental'),
+(@g_romance,  'Romance'),
+(@g_bio,      'Biográfico');
