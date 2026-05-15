@@ -119,3 +119,8 @@ INSERT INTO award (id, name, country_id, founded_year) VALUES
 (@aw_bafta,  'BAFTA',                         @uk, 1947),
 (@aw_cannes, 'Cannes Film Festival',          @fr, 1946),
 (@aw_fcc,    'Festival de Cine de Cartagena', @co, 1960);
+
+SET @pc_wb     = UUID(); SET @pc_a24    = UUID(); SET @pc_cj     = UUID();
+SET @pc_legend = UUID(); SET @pc_nflx   = UUID(); SET @pc_neon   = UUID();
+SET @pc_param  = UUID(); SET @pc_focus  = UUID();
+SET @pc_param  = UUID(); SET @pc_focus  = UUID();
