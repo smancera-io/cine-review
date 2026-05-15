@@ -177,4 +177,18 @@ INSERT INTO person (id, name, last_name, birth_date, country_id) VALUES
 (@p_gosling,  'Ryan',        'Gosling',    '1980-11-12', @ca),
 (@p_murphy,   'Cillian',     'Murphy',     '1976-05-25', @uk),
 (@p_yeoh,     'Michelle',    'Yeoh',       '1962-08-06', @us);
+
+INSERT INTO director (id, directing_style_id) VALUES
+(@p_nolan,    @ds_epic),
+(@p_bong,     @ds_social),
+(@p_vil,      @ds_sci),
+(@p_gerwig,   @ds_neo),
+(@p_cuaron,   @ds_social),
+(@p_inarr,    @ds_psych),
+(@p_jenkins,  @ds_neo),
+(@p_sciamma,  @ds_neo),
+(@p_guerra,   @ds_neo),
+(@p_dan_k,    @ds_dark),
+(@p_chazelle, @ds_neo),
+(@p_mendes,   @ds_epic);
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
