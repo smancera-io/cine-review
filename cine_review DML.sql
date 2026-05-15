@@ -69,3 +69,9 @@ INSERT INTO user_role (id, name) VALUES
 
 SET @st_sub  = UUID(); SET @st_rent = UUID();
 SET @st_free = UUID(); SET @st_buy  = UUID();
+
+INSERT INTO subscription_type (id, name) VALUES
+(@st_sub,  'SUBSCRIPTION'),
+(@st_rent, 'RENT'),
+(@st_free, 'FREE'),
+(@st_buy,  'PURCHASE');
