@@ -191,4 +191,18 @@ INSERT INTO director (id, directing_style_id) VALUES
 (@p_dan_k,    @ds_dark),
 (@p_chazelle, @ds_neo),
 (@p_mendes,   @ds_epic);
+
+INSERT INTO actor (id, acting_method_id) VALUES
+(@p_dicap,   @am_stan),
+(@p_kangho,  @am_meis),
+(@p_chalm,   @am_stan),
+(@p_cotil,   @am_meis),
+(@p_sodam,   @am_stan),
+(@p_ali,     @am_meis),
+(@p_hardy,   @am_stan),
+(@p_adams,   @am_stan),
+(@p_zend,    @am_meis),
+(@p_gosling, @am_meis),
+(@p_murphy,  @am_stan),
+(@p_yeoh,    @am_meis);
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
