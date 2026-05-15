@@ -88,3 +88,9 @@ INSERT INTO classification (id, classification_system, name, description, min_ag
 
 SET @cr_prod = UUID(); SET @cr_dist = UUID();
 SET @cr_co   = UUID(); SET @cr_exec = UUID();
+
+INSERT INTO company_role (id, name) VALUES
+(@cr_prod, 'PRODUCER'),
+(@cr_dist, 'DISTRIBUTOR'),
+(@cr_co,   'CO_PRODUCER'),
+(@cr_exec, 'EXECUTIVE_PRODUCER');
