@@ -101,3 +101,6 @@ INSERT INTO director_role (id, name) VALUES
 (@dr_dir,   'DIRECTOR'),
 (@dr_codir, 'CO_DIRECTOR'),
 (@dr_2nd,   'SECOND_UNIT_DIRECTOR');
+
+SET @ws_pend = UUID(); SET @ws_wtch = UUID();
+SET @ws_done = UUID(); SET @ws_drop = UUID();
