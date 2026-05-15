@@ -78,3 +78,10 @@ INSERT INTO subscription_type (id, name) VALUES
 
 SET @cl_g    = UUID(); SET @cl_pg   = UUID(); SET @cl_pg13 = UUID();
 SET @cl_r    = UUID(); SET @cl_nc17 = UUID();
+
+INSERT INTO classification (id, classification_system, name, description, min_age) VALUES
+(@cl_g,    'MPAA', 'G',     'Audiencia general',                            0),
+(@cl_pg,   'MPAA', 'PG',    'Orientación parental sugerida',                8),
+(@cl_pg13, 'MPAA', 'PG-13', 'Inapropiada para menores de 13',             13),
+(@cl_r,    'MPAA', 'R',     'Requiere adulto para menores de 17',         17),
+(@cl_nc17, 'MPAA', 'NC-17', 'Solo adultos',                               18);
