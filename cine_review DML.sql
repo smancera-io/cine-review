@@ -390,3 +390,13 @@ INSERT INTO movie_award (movie_id, award_id, category_id, year, won) VALUES
 (@mv_eeaao,     @aw_oscar,  @ac_dir,   2023, TRUE),
 (@mv_arrival,   @aw_oscar,  @ac_film,  2017, FALSE),
 (@mv_arrival,   @aw_oscar,  @ac_dir,   2017, FALSE);
+
+INSERT INTO person_award (person_id, award_id, category_id, year, won) VALUES
+(@p_bong,     @aw_oscar, @ac_dir,   2020, TRUE),
+(@p_cuaron,   @aw_oscar, @ac_dir,   2019, TRUE),
+(@p_jenkins,  @aw_oscar, @ac_scrpt, 2017, TRUE),
+(@p_dicap,    @aw_oscar, @ac_actor, 2016, TRUE),
+(@p_cotil,    @aw_oscar, @ac_act,   2008, TRUE),
+(@p_ali,      @aw_oscar, @ac_actor, 2017, TRUE),
+(@p_dan_k,    @aw_oscar, @ac_dir,   2023, TRUE),
+(@p_yeoh,     @aw_oscar, @ac_act,   2023, TRUE);
