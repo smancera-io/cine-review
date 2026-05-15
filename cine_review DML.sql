@@ -372,3 +372,21 @@ INSERT INTO watchlist (user_id, movie_id, status_id) VALUES
 (@u_minjun, @mv_blade,     @ws_done),
 (@u_jiwoo,  @mv_inception, @ws_done),
 (@u_jiwoo,  @mv_parasite,  @ws_done);
+
+INSERT INTO movie_award (movie_id, award_id, category_id, year, won) VALUES
+(@mv_parasite,  @aw_oscar,  @ac_film,  2020, TRUE),
+(@mv_parasite,  @aw_oscar,  @ac_dir,   2020, TRUE),
+(@mv_parasite,  @aw_oscar,  @ac_intl,  2020, TRUE),
+(@mv_parasite,  @aw_cannes, @ac_film,  2019, TRUE),
+(@mv_inception, @aw_oscar,  @ac_film,  2011, FALSE),
+(@mv_inception, @aw_oscar,  @ac_photo, 2011, TRUE),
+(@mv_roma,      @aw_oscar,  @ac_dir,   2019, TRUE),
+(@mv_roma,      @aw_oscar,  @ac_intl,  2019, TRUE),
+(@mv_dune,      @aw_oscar,  @ac_photo, 2022, TRUE),
+(@mv_knight,    @aw_bafta,  @ac_film,  2009, FALSE),
+(@mv_moonlight, @aw_oscar,  @ac_film,  2017, TRUE),
+(@mv_moonlight, @aw_oscar,  @ac_scrpt, 2017, FALSE),
+(@mv_eeaao,     @aw_oscar,  @ac_film,  2023, TRUE),
+(@mv_eeaao,     @aw_oscar,  @ac_dir,   2023, TRUE),
+(@mv_arrival,   @aw_oscar,  @ac_film,  2017, FALSE),
+(@mv_arrival,   @aw_oscar,  @ac_dir,   2017, FALSE);
