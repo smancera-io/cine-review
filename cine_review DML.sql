@@ -85,3 +85,6 @@ INSERT INTO classification (id, classification_system, name, description, min_ag
 (@cl_pg13, 'MPAA', 'PG-13', 'Inapropiada para menores de 13',             13),
 (@cl_r,    'MPAA', 'R',     'Requiere adulto para menores de 17',         17),
 (@cl_nc17, 'MPAA', 'NC-17', 'Solo adultos',                               18);
+
+SET @cr_prod = UUID(); SET @cr_dist = UUID();
+SET @cr_co   = UUID(); SET @cr_exec = UUID();
