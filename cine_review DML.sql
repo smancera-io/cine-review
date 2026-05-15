@@ -12,3 +12,8 @@ INSERT INTO country (id, name) VALUES
 (@ca, 'Canadá'),
 (@jp, 'Japón'),
 (@de, 'Alemania');
+
+SET @g_scifi    = UUID(); SET @g_drama    = UUID(); SET @g_thriller = UUID();
+SET @g_horror   = UUID(); SET @g_comedy   = UUID(); SET @g_action   = UUID();
+SET @g_anim     = UUID(); SET @g_doc      = UUID(); SET @g_romance  = UUID();
+SET @g_bio      = UUID();
