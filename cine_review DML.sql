@@ -55,3 +55,8 @@ INSERT INTO directing_style (id, name) VALUES
 (@ds_dark,   'Comedia Oscura');
 
 SET @am_stan = UUID(); SET @am_meis = UUID(); SET @am_brec = UUID();
+
+INSERT INTO acting_method (id, name) VALUES
+(@am_stan, 'Método Stanislavski'),
+(@am_meis, 'Técnica Meisner'),
+(@am_brec, 'Teatro Épico Brechtiano');
