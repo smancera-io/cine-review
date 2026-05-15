@@ -136,4 +136,10 @@ INSERT INTO production_company (id, name, country_id, founded_year) VALUES
 
 SET @sp_nflx   = UUID(); SET @sp_hbo  = UUID();
 SET @sp_amazon = UUID(); SET @sp_mubi = UUID();
+
+INSERT INTO streaming_platform (id, name, country_id, subscription_type_id) VALUES
+(@sp_nflx,   'Netflix',            @us, @st_sub),
+(@sp_hbo,    'HBO Max',            @us, @st_sub),
+(@sp_amazon, 'Amazon Prime Video', @us, @st_sub),
+(@sp_mubi,   'Mubi',               @uk, @st_sub);
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
