@@ -142,4 +142,13 @@ INSERT INTO streaming_platform (id, name, country_id, subscription_type_id) VALU
 (@sp_hbo,    'HBO Max',            @us, @st_sub),
 (@sp_amazon, 'Amazon Prime Video', @us, @st_sub),
 (@sp_mubi,   'Mubi',               @uk, @st_sub);
+
+SET @p_nolan    = UUID(); SET @p_bong     = UUID(); SET @p_vil      = UUID();
+SET @p_gerwig   = UUID(); SET @p_cuaron   = UUID(); SET @p_inarr    = UUID();
+SET @p_jenkins  = UUID(); SET @p_sciamma  = UUID(); SET @p_guerra   = UUID();
+SET @p_dan_k    = UUID(); SET @p_chazelle = UUID(); SET @p_mendes   = UUID();
+SET @p_dicap    = UUID(); SET @p_kangho   = UUID(); SET @p_chalm    = UUID();
+SET @p_cotil    = UUID(); SET @p_sodam    = UUID(); SET @p_ali      = UUID();
+SET @p_hardy    = UUID(); SET @p_adams    = UUID(); SET @p_zend     = UUID();
+SET @p_gosling  = UUID(); SET @p_murphy   = UUID(); SET @p_yeoh     = UUID();
 SET @pc_param  = UUID(); SET @pc_focus  = UUID();
