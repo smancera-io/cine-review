@@ -220,4 +220,10 @@ INSERT INTO app_user (id, role_id, name, last_name, country_id, birth_date, emai
     'minjun.lee@email.com',       '$2a$12$1A2B3C4D5E6F7G8H9I0JkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhH'),
 (@u_jiwoo,  @r_user,  'Ji-woo',  'Kim',       @kr, '2002-04-20',
     'jiwoo.kim@email.com',        '$2a$12$MnOpQrStUvWxYz0123456789AbCdEfGhIjKlMnOpQrStUvWxYzAb');
-SET @pc_param  = UUID(); SET @pc_focus  = UUID();
+
+SET @mv_inception = UUID(); SET @mv_parasite  = UUID();
+SET @mv_stellar   = UUID(); SET @mv_dune      = UUID();
+SET @mv_roma      = UUID(); SET @mv_barbie    = UUID();
+SET @mv_abrazo    = UUID(); SET @mv_knight    = UUID();
+SET @mv_arrival   = UUID(); SET @mv_moonlight = UUID();
+SET @mv_blade     = UUID(); SET @mv_eeaao     = UUID();
