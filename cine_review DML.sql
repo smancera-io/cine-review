@@ -339,3 +339,24 @@ INSERT INTO movie_platform (movie_id, platform_id, available_since, available_un
 (@mv_moonlight, @sp_nflx,   '2021-07-01', NULL),
 (@mv_blade,     @sp_amazon, '2022-01-01', NULL),
 (@mv_eeaao,     @sp_amazon, '2022-08-01', NULL);
+
+INSERT INTO review (user_id, movie_id, rating, body) VALUES
+(@u_carlos, @mv_inception, 9,  'Narrativa en capas construida con precisión quirúrgica.'),
+(@u_carlos, @mv_stellar,   10, 'La escena del planeta oceánico es una de las más perturbadoras del cine moderno.'),
+(@u_carlos, @mv_parasite,  10, 'Magistral en todos los aspectos. Bong Joon-ho en su punto más alto.'),
+(@u_carlos, @mv_knight,    10, 'Heath Ledger redefine lo que un villano puede ser.'),
+(@u_carlos, @mv_arrival,   9,  'El giro narrativo final recontextualiza toda la película.'),
+(@u_carlos, @mv_moonlight, 9,  'Poesía visual. Jenkins hace de lo íntimo algo universal.'),
+(@u_carlos, @mv_roma,      10, 'Cuarón eleva lo cotidiano a lo trascendente.'),
+(@u_carlos, @mv_eeaao,     8,  'Caótico y hermoso a la vez. Un triunfo del cine independiente.'),
+(@u_laura,  @mv_parasite,  9,  'Crítica social envuelta en un thriller de precisión milimétrica.'),
+(@u_laura,  @mv_inception, 8,  'Visualmente impresionante, aunque el final genera más preguntas que respuestas.'),
+(@u_laura,  @mv_roma,      9,  'Profundamente humana. Una de las mejores del cine latinoamericano.'),
+(@u_laura,  @mv_dune,      8,  'Épica visual espectacular, aunque funciona más como prólogo.'),
+(@u_laura,  @mv_blade,     7,  'Atmosférica y hermosa, pero el ritmo puede desesperar.'),
+(@u_minjun, @mv_parasite,  10, 'Una película perfecta. Orgullo del cine coreano.'),
+(@u_minjun, @mv_stellar,   9,  'Científicamente rigurosa y emocionalmente devastadora.'),
+(@u_minjun, @mv_dune,      8,  'Impresionante escala visual. La segunda parte prometía aún más.'),
+(@u_minjun, @mv_moonlight, 10, 'Una de las películas más importantes de la última década.'),
+(@u_jiwoo,  @mv_arrival,   10, 'El lenguaje como clave del tiempo. Brillante.'),
+(@u_jiwoo,  @mv_eeaao,     9,  'Absurda, emotiva y profunda. Completamente única.');
