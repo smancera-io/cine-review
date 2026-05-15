@@ -113,3 +113,9 @@ INSERT INTO status_watchlist (id, name) VALUES
 
 SET @aw_oscar  = UUID(); SET @aw_bafta  = UUID();
 SET @aw_cannes = UUID(); SET @aw_fcc    = UUID();
+
+INSERT INTO award (id, name, country_id, founded_year) VALUES
+(@aw_oscar,  'Academy Awards',                @us, 1929),
+(@aw_bafta,  'BAFTA',                         @uk, 1947),
+(@aw_cannes, 'Cannes Film Festival',          @fr, 1946),
+(@aw_fcc,    'Festival de Cine de Cartagena', @co, 1960);
