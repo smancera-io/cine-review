@@ -66,3 +66,6 @@ SET @r_admin = UUID(); SET @r_user = UUID();
 INSERT INTO user_role (id, name) VALUES
 (@r_admin, 'ADMIN'),
 (@r_user,  'USER');
+
+SET @st_sub  = UUID(); SET @st_rent = UUID();
+SET @st_free = UUID(); SET @st_buy  = UUID();
