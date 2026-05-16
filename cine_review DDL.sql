@@ -372,3 +372,41 @@ BEGIN
     SELECT * FROM person WHERE id = v_person_id;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_insert_movie(
+    IN p_title             VARCHAR(255),
+    IN p_release_year      YEAR,
+    IN p_country_id        CHAR(36),
+    IN p_classification_id CHAR(36),
+    IN p_synopsis          TEXT,
+    IN p_tmdb_id           INT,
+    IN p_director_id       CHAR(36),
+    IN p_role_id           CHAR(36),
+    IN p_genre_1_id        CHAR(36),
+    IN p_genre_2_id        CHAR(36),
+    IN p_genre_3_id        CHAR(36)
+)
+BEGIN
+    DECLARE v_movie_id CHAR(36) DEFAULT (UUID());
+    IF NOT EXISTS (SELECT 1 FROM director WHERE id = p_director_id) THEN
+        SELECT 'ERROR: director no existe' AS message;
+    ELSE
+        INSERT INTO movie (id, country_id, classification_id, title, release_year, synopsis, tmdb_id)
+        VALUES (v_movie_id, p_country_id, p_classification_id, p_title, p_release_year, p_synopsis, p_tmdb_id);
+        INSERT INTO movie_director (movie_id, director_id, role_id)
+        VALUES (v_movie_id, p_director_id, p_role_id);
+        INSERT INTO movie_genre (movie_id, genre_id)
+        VALUES (v_movie_id, p_genre_1_id);
+        IF p_genre_2_id IS NOT NULL THEN
+            INSERT INTO movie_genre (movie_id, genre_id)
+            VALUES (v_movie_id, p_genre_2_id);
+        END IF;
+        IF p_genre_3_id IS NULL THEN
+            INSERT INTO movie_genre (movie_id, genre_id)
+            VALUES (v_movie_id, p_genre_3_id);
+        END IF;
+        SELECT * FROM movie WHERE id = v_movie_id;
+    END IF;
+END$$
+DELIMITER ;
