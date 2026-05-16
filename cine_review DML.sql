@@ -447,3 +447,53 @@ SELECT movie_id, platform_id, available_since, available_until
 FROM movie_platform
 WHERE available_until IS NOT NULL
   AND available_until <= CURDATE();
+  
+-- Estadísticas globales de ratings
+SELECT MAX(rating)           AS max_rating,
+       MIN(rating)           AS min_rating,
+       ROUND(AVG(rating), 2) AS avg_rating,
+       SUM(rating)           AS sum_total,
+       COUNT(*)              AS total_reviews
+FROM review;
+
+-- Promedio de calificación por película
+SELECT movie_id,
+       ROUND(AVG(rating), 2) AS avg_rating,
+       COUNT(*)              AS review_count
+FROM review
+GROUP BY movie_id
+ORDER BY avg_rating DESC;
+
+-- Victorias y nominaciones por película
+SELECT movie_id,
+       COUNT(*)            AS total_nominations,
+       SUM(won)            AS total_wins,
+       COUNT(*) - SUM(won) AS total_losses
+FROM movie_award
+GROUP BY movie_id
+ORDER BY total_wins DESC;
+
+-- Número de películas por género
+SELECT g.name             AS genre,
+       COUNT(mg.movie_id) AS total_movies
+FROM genre g
+LEFT JOIN movie_genre mg ON mg.genre_id = g.id
+GROUP BY g.id, g.name
+ORDER BY total_movies DESC;
+
+-- Edades mínima y máxima por sistema de clasificación
+SELECT classification_system,
+       MIN(min_age) AS min_age_floor,
+       MAX(min_age) AS max_age_ceiling
+FROM classification
+GROUP BY classification_system;
+
+-- Actividad de reviewers
+SELECT user_id,
+       COUNT(*)              AS reviews_written,
+       ROUND(AVG(rating), 2) AS avg_given_rating,
+       MAX(rating)           AS highest_given,
+       MIN(rating)           AS lowest_given
+FROM review
+GROUP BY user_id
+ORDER BY reviews_written DESC;
