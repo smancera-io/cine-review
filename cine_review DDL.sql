@@ -410,3 +410,24 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_register_user(
+    IN p_name          VARCHAR(50),
+    IN p_last_name     VARCHAR(50),
+    IN p_email         VARCHAR(255),
+    IN p_password_hash VARCHAR(255),
+    IN p_country_id    CHAR(36),
+    IN p_birth_date    DATE,
+    IN p_role_id       CHAR(36)
+)
+BEGIN
+    IF EXISTS (SELECT 1 FROM app_user WHERE email = p_email) THEN
+        SELECT 'ERROR: email ya registrado' AS message;
+    ELSE
+        INSERT INTO app_user (id, role_id, name, last_name, email, password_hash, country_id, birth_date)
+        VALUES (UUID(), p_role_id, p_name, p_last_name, p_email, p_password_hash, p_country_id, p_birth_date);
+        SELECT * FROM app_user WHERE email = p_email;
+    END IF;
+END$$
+DELIMITER ;
