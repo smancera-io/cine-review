@@ -516,3 +516,168 @@ SELECT YEAR(created_at)  AS year,
 FROM review
 GROUP BY YEAR(created_at), MONTH(created_at)
 ORDER BY year, month;
+
+-- Disponibilidades que vencen este año
+SELECT m.title, sp.name AS platform, mp.available_until
+FROM movie_platform mp
+INNER JOIN movie              m  ON m.id  = mp.movie_id
+INNER JOIN streaming_platform sp ON sp.id = mp.platform_id
+WHERE YEAR(mp.available_until) = YEAR(CURDATE())
+ORDER BY mp.available_until;
+
+-- Directores mayores de 50 años
+SELECT p.name, p.last_name, p.birth_date,
+       TIMESTAMPDIFF(YEAR, p.birth_date, CURDATE()) AS age
+FROM person p
+INNER JOIN director d ON d.id = p.id
+WHERE TIMESTAMPDIFF(YEAR, p.birth_date, CURDATE()) > 50
+ORDER BY age DESC;
+
+-- Premios por año en la última década
+SELECT ma.year,
+       COUNT(*)     AS total_nominations,
+       SUM(ma.won)  AS total_wins
+FROM movie_award ma
+WHERE ma.year >= 2015 AND ma.year <= 2025
+GROUP BY ma.year
+ORDER BY ma.year DESC;
+
+-- Mes con más cumpleaños entre personas registradas
+SELECT MONTH(birth_date) AS birth_month,
+       COUNT(*)           AS total_persons
+FROM person
+GROUP BY MONTH(birth_date)
+ORDER BY total_persons DESC;
+
+-- Película con país de producción y clasificación
+SELECT m.title, m.release_year,
+       c.name  AS country,
+       cl.name AS classification,
+       cl.min_age
+FROM movie m
+INNER JOIN country        c  ON c.id  = m.country_id
+INNER JOIN classification cl ON cl.id = m.classification_id
+ORDER BY m.release_year DESC;
+
+-- Película con director, país del director y estilo de dirección
+SELECT m.title, m.release_year,
+       p.name        AS director_name,
+       p.last_name   AS director_last_name,
+       c.name        AS director_nationality,
+       ds.name       AS directing_style,
+       dr.name       AS role_in_film
+FROM movie_director md
+INNER JOIN movie           m  ON m.id   = md.movie_id
+INNER JOIN director        d  ON d.id   = md.director_id
+INNER JOIN person          p  ON p.id   = d.id
+INNER JOIN country         c  ON c.id   = p.country_id
+INNER JOIN directing_style ds ON ds.id  = d.directing_style_id
+INNER JOIN director_role   dr ON dr.id  = md.role_id
+ORDER BY m.title;
+
+-- Géneros por película
+SELECT m.title,
+       GROUP_CONCAT(g.name ORDER BY g.name SEPARATOR ', ') AS genres
+FROM movie m
+INNER JOIN movie_genre mg ON mg.movie_id = m.id
+INNER JOIN genre       g  ON g.id        = mg.genre_id
+GROUP BY m.id, m.title
+ORDER BY m.title;
+
+-- Actores protagonistas con método de actuación
+SELECT m.title,
+       p.name           AS actor_name,
+       p.last_name,
+       ma.character_name,
+       am.name          AS acting_method
+FROM movie_actor ma
+INNER JOIN movie         m  ON m.id  = ma.movie_id
+INNER JOIN actor         a  ON a.id  = ma.actor_id
+INNER JOIN person        p  ON p.id  = a.id
+INNER JOIN acting_method am ON am.id = a.acting_method_id
+WHERE ma.is_lead = TRUE
+ORDER BY m.title;
+
+-- Reseñas con datos completos de usuario y película
+SELECT u.name, u.last_name,
+       m.title, r.rating, r.body, r.created_at
+FROM review r
+INNER JOIN app_user u ON u.id = r.user_id
+INNER JOIN movie    m ON m.id = r.movie_id
+ORDER BY r.created_at DESC;
+
+-- Películas actualmente disponibles en streaming
+SELECT m.title, m.release_year,
+       sp.name          AS platform,
+       mp.available_since
+FROM movie_platform mp
+INNER JOIN movie              m  ON m.id  = mp.movie_id
+INNER JOIN streaming_platform sp ON sp.id = mp.platform_id
+WHERE mp.available_until IS NULL
+   OR mp.available_until > CURDATE()
+ORDER BY sp.name, m.title;
+
+-- Películas con compañías productoras
+SELECT m.title,
+       pc.name AS company,
+       cr.name AS company_role
+FROM movie_company mc
+INNER JOIN movie              m  ON m.id  = mc.movie_id
+INNER JOIN production_company pc ON pc.id = mc.company_id
+INNER JOIN company_role       cr ON cr.id = mc.role_id
+WHERE cr.name = 'PRODUCER'
+ORDER BY m.title;
+
+-- Películas ganadoras de premios
+SELECT m.title,
+       a.name  AS award,
+       ac.name AS category,
+       ma.year
+FROM movie_award ma
+INNER JOIN movie          m  ON m.id  = ma.movie_id
+INNER JOIN award          a  ON a.id  = ma.award_id
+INNER JOIN award_category ac ON ac.id = ma.category_id
+WHERE ma.won = TRUE
+ORDER BY ma.year DESC;
+
+-- Watchlist de usuarios con estado
+SELECT u.name, u.last_name,
+       m.title, sw.name AS status, w.added_at
+FROM watchlist w
+INNER JOIN app_user         u  ON u.id  = w.user_id
+INNER JOIN movie            m  ON m.id  = w.movie_id
+INNER JOIN status_watchlist sw ON sw.id = w.status_id
+ORDER BY u.last_name, w.added_at DESC;
+
+-- Personas ganadoras de premios individuales
+SELECT p.name, p.last_name,
+       c.name  AS nationality,
+       a.name  AS award,
+       ac.name AS category,
+       pa.year
+FROM person_award pa
+INNER JOIN person         p  ON p.id  = pa.person_id
+INNER JOIN award          a  ON a.id  = pa.award_id
+INNER JOIN award_category ac ON ac.id = pa.category_id
+LEFT  JOIN country        c  ON c.id  = p.country_id
+WHERE pa.won = TRUE
+ORDER BY pa.year DESC;
+
+-- LEFT JOIN: películas sin ninguna reseña
+SELECT m.title, m.release_year, c.name AS country
+FROM movie m
+LEFT  JOIN review  r ON r.movie_id = m.id
+INNER JOIN country c ON c.id       = m.country_id
+WHERE r.id IS NULL
+ORDER BY m.release_year;
+
+-- Directores con número de películas en catálogo
+SELECT p.name, p.last_name,
+       ds.name             AS directing_style,
+       COUNT(md.movie_id)  AS movies_in_catalog
+FROM director d
+INNER JOIN person          p  ON p.id  = d.id
+INNER JOIN directing_style ds ON ds.id = d.directing_style_id
+LEFT  JOIN movie_director  md ON md.director_id = d.id
+GROUP BY d.id, p.name, p.last_name, ds.name
+ORDER BY movies_in_catalog DESC;
