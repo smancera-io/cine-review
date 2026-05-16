@@ -515,3 +515,25 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_get_user_watchlist(
+    IN p_user_id CHAR(36)
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM app_user WHERE id = p_user_id) THEN
+        SELECT 'ERROR: usuario no encontrado' AS message;
+    ELSE
+        SELECT
+            m.title,
+            m.release_year,
+            sw.name  AS status,
+            w.added_at
+        FROM watchlist w
+        INNER JOIN movie            m  ON m.id  = w.movie_id
+        INNER JOIN status_watchlist sw ON sw.id = w.status_id
+        WHERE w.user_id = p_user_id
+        ORDER BY w.added_at DESC;
+    END IF;
+END$$
+DELIMITER ;
