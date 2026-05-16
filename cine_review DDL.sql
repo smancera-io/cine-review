@@ -431,3 +431,23 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_update_review(
+    IN p_review_id CHAR(36),
+    IN p_user_id   CHAR(36),
+    IN p_rating    TINYINT,
+    IN p_body      TEXT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id AND user_id = p_user_id) THEN
+        SELECT 'ERROR: reseña no encontrada o no autorizado' AS message;
+    ELSE
+        UPDATE review
+            SET rating = p_rating,
+                body   = p_body
+        WHERE id = p_review_id;
+        SELECT * FROM review WHERE id = p_review_id;
+    END IF;
+END$$
+DELIMITER ;
