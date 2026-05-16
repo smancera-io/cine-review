@@ -346,3 +346,29 @@ CREATE TABLE movie_director (
 		FOREIGN KEY (role_id) REFERENCES director_role (id)
         ON DELETE RESTRICT
 );
+
+DELIMITER $$
+CREATE PROCEDURE sp_insert_person(
+    IN p_name             VARCHAR(50),
+    IN p_last_name        VARCHAR(50),
+    IN p_birth_date       DATE,
+    IN p_country_id       CHAR(36),
+    IN p_type             VARCHAR(10),
+    IN p_style_method_id  CHAR(36)
+)
+BEGIN
+    DECLARE v_person_id CHAR(36) DEFAULT (UUID());
+    INSERT INTO person (id, name, last_name, birth_date, country_id)
+    VALUES (v_person_id, p_name, p_last_name, p_birth_date, p_country_id);
+    IF p_type = 'DIRECTOR' THEN
+        INSERT INTO director (id, directing_style_id)
+        VALUES (v_person_id, p_style_method_id);
+    ELSEIF p_type = 'ACTOR' THEN
+        INSERT INTO actor (id, acting_method_id)
+        VALUES (v_person_id, p_style_method_id);
+    ELSE
+        SELECT 'ERROR: tipo debe ser DIRECTOR o ACTOR' AS message;
+    END IF;
+    SELECT * FROM person WHERE id = v_person_id;
+END$$
+DELIMITER ;
