@@ -451,3 +451,21 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_update_watchlist_status(
+    IN p_watchlist_id CHAR(36),
+    IN p_user_id      CHAR(36),
+    IN p_status_id    CHAR(36)
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM watchlist WHERE id = p_watchlist_id AND user_id = p_user_id) THEN
+        SELECT 'ERROR: entrada no encontrada o no autorizado' AS message;
+    ELSE
+        UPDATE watchlist
+            SET status_id = p_status_id
+        WHERE id = p_watchlist_id;
+        SELECT * FROM watchlist WHERE id = p_watchlist_id;
+    END IF;
+END$$
+DELIMITER ;
