@@ -400,3 +400,50 @@ INSERT INTO person_award (person_id, award_id, category_id, year, won) VALUES
 (@p_ali,      @aw_oscar, @ac_actor, 2017, TRUE),
 (@p_dan_k,    @aw_oscar, @ac_dir,   2023, TRUE),
 (@p_yeoh,     @aw_oscar, @ac_act,   2023, TRUE);
+
+-- Películas estrenadas después de 2015
+SELECT title, release_year
+FROM movie
+WHERE release_year > 2015
+ORDER BY release_year DESC;
+
+-- Personas nacidas antes de 1975
+SELECT name, last_name, birth_date
+FROM person
+WHERE birth_date < '1975-01-01'
+ORDER BY birth_date;
+
+-- Reseñas con calificación mayor o igual a 9
+SELECT id, rating, body
+FROM review
+WHERE rating >= 9
+ORDER BY rating DESC;
+
+-- Clasificaciones que restringen a mayores de 12 años
+SELECT classification_system, name, min_age
+FROM classification
+WHERE min_age > 12
+ORDER BY min_age;
+
+-- Compañías productoras fundadas entre 1990 y 2010
+SELECT name, founded_year
+FROM production_company
+WHERE founded_year >= 1990 AND founded_year <= 2010
+ORDER BY founded_year;
+
+-- Películas con tmdb_id asignado
+SELECT title, release_year, tmdb_id
+FROM movie
+WHERE tmdb_id IS NOT NULL
+ORDER BY release_year DESC;
+
+-- Películas sin vinculación TMDB
+SELECT title, release_year
+FROM movie
+WHERE tmdb_id IS NULL;
+
+-- Disponibilidades de plataforma ya vencidas
+SELECT movie_id, platform_id, available_since, available_until
+FROM movie_platform
+WHERE available_until IS NOT NULL
+  AND available_until <= CURDATE();
