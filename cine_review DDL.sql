@@ -537,3 +537,22 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_delete_review(
+    IN p_review_id CHAR(36),
+    IN p_user_id   CHAR(36),
+    IN p_role_name VARCHAR(50)
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id) THEN
+        SELECT 'ERROR: reseña no encontrada' AS message;
+    ELSEIF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id AND user_id = p_user_id)
+        AND p_role_name != 'ADMIN' THEN
+        SELECT 'ERROR: no autorizado' AS message;
+    ELSE
+        DELETE FROM review WHERE id = p_review_id;
+        SELECT 'OK: reseña eliminada' AS message;
+    END IF;
+END$$
+DELIMITER ;
