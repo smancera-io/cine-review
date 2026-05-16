@@ -469,3 +469,49 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_get_movie_detail(
+    IN p_movie_id CHAR(36)
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM movie WHERE id = p_movie_id) THEN
+        SELECT 'ERROR: película no encontrada' AS message;
+    ELSE
+        SELECT
+            m.title,
+            m.release_year,
+            m.synopsis,
+            c.name                   AS country,
+            cl.name                  AS classification,
+            p.name                   AS director_name,
+            p.last_name              AS director_last_name,
+            ROUND(AVG(r.rating), 2)  AS avg_rating,
+            COUNT(DISTINCT r.id)     AS total_reviews
+        FROM movie m
+        LEFT JOIN country         c  ON c.id  = m.country_id
+        LEFT JOIN classification  cl ON cl.id = m.classification_id
+        LEFT JOIN movie_director  md ON md.movie_id = m.id
+        LEFT JOIN director        d  ON d.id  = md.director_id
+        LEFT JOIN person          p  ON p.id  = d.id
+        LEFT JOIN review          r  ON r.movie_id = m.id
+        WHERE m.id = p_movie_id
+        GROUP BY m.title, m.release_year, m.synopsis,
+                 c.name, cl.name, p.name, p.last_name;
+        SELECT g.name AS genre
+        FROM movie_genre mg
+        INNER JOIN genre g ON g.id = mg.genre_id
+        WHERE mg.movie_id = p_movie_id;
+        SELECT
+            p.name,
+            p.last_name,
+            ma.character_name,
+            ma.is_lead
+        FROM movie_actor ma
+        INNER JOIN actor  a ON a.id = ma.actor_id
+        INNER JOIN person p ON p.id = a.id
+        WHERE ma.movie_id = p_movie_id
+        ORDER BY ma.is_lead DESC;
+    END IF;
+END$$
+DELIMITER ;
