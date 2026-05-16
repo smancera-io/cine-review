@@ -497,3 +497,22 @@ SELECT user_id,
 FROM review
 GROUP BY user_id
 ORDER BY reviews_written DESC;
+
+-- Personas nacidas en el segundo semestre
+SELECT name, last_name, birth_date
+FROM person
+WHERE MONTH(birth_date) >= 7
+ORDER BY MONTH(birth_date), DAY(birth_date);
+
+-- Usuarios registrados en el año en curso
+SELECT name, last_name, email, created_at
+FROM app_user
+WHERE YEAR(created_at) = YEAR(CURDATE());
+
+-- Distribución mensual de reseñas
+SELECT YEAR(created_at)  AS year,
+       MONTH(created_at) AS month,
+       COUNT(*)          AS reviews_count
+FROM review
+GROUP BY YEAR(created_at), MONTH(created_at)
+ORDER BY year, month;
