@@ -402,7 +402,7 @@ BEGIN
             INSERT INTO movie_genre (movie_id, genre_id)
             VALUES (v_movie_id, p_genre_2_id);
         END IF;
-        IF p_genre_3_id IS NULL THEN
+        IF p_genre_3_id IS NOT NULL THEN
             INSERT INTO movie_genre (movie_id, genre_id)
             VALUES (v_movie_id, p_genre_3_id);
         END IF;
