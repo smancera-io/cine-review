@@ -681,3 +681,34 @@ INNER JOIN directing_style ds ON ds.id = d.directing_style_id
 LEFT  JOIN movie_director  md ON md.director_id = d.id
 GROUP BY d.id, p.name, p.last_name, ds.name
 ORDER BY movies_in_catalog DESC;
+
+CALL sp_insert_movie('Oppenheimer', 2023, @uk, @cl_r,
+    'J. Robert Oppenheimer lidera el Proyecto Manhattan para construir la primera bomba atómica.',
+    872585, @p_nolan, @dr_dir, @g_bio, @g_drama, @g_thriller);
+CALL sp_insert_movie('Tenet', 2020, @uk, @cl_pg13,
+    'Un agente aprende a manipular el flujo del tiempo para prevenir la Tercera Guerra Mundial.',
+    577922, @p_nolan, @dr_dir, @g_action, @g_scifi, @g_thriller);
+CALL sp_insert_movie('Dune: Part Two', 2024, @us, @cl_pg13,
+    'Paul Atreides se une a los Fremen y lidera una guerra santa para vengar a su familia.',
+    693134, @p_vil, @dr_dir, @g_scifi, @g_action, NULL);
+CALL sp_insert_movie('Portrait of a Lady on Fire', 2019, @fr, @cl_r,
+    'Una pintora y su modelo desarrollan un romance apasionado en la Francia del siglo XVIII.',
+    400617, @p_sciamma, @dr_dir, @g_drama, @g_romance, NULL);
+CALL sp_insert_movie('Snowpiercer', 2013, @kr, @cl_r,
+    'Los supervivientes de un apocalipsis climático viven en un tren que da la vuelta al mundo, divididos por clases.',
+    144183, @p_bong, @dr_dir, @g_scifi, @g_action, @g_thriller);
+CALL sp_insert_movie('Okja', 2017, @kr, @cl_pg13,
+    'Una niña lucha para salvar a su mejor amiga, una enorme criatura, de una corporación multinacional.',
+    396535, @p_bong, @dr_dir, @g_drama, @g_action, NULL);
+CALL sp_insert_movie('1917', 2019, @uk, @cl_r,
+    'Dos soldados tienen horas para entregar un mensaje que puede salvar 1600 vidas en la Primera Guerra Mundial.',
+    530915, @p_mendes, @dr_dir, @g_drama, @g_action, NULL);
+CALL sp_insert_movie('Whiplash', 2014, @us, @cl_r,
+    'Un joven baterista se somete al brutal entrenamiento de un director de orquesta obsesionado con la perfección.',
+    244786, @p_chazelle, @dr_dir, @g_drama, @g_thriller, NULL);
+CALL sp_insert_movie('Sicario', 2015, @us, @cl_r,
+    'Una agente del FBI es reclutada para una operación encubierta en la frontera narco entre México y Estados Unidos.',
+    273481, @p_vil, @dr_dir, @g_thriller, @g_action, NULL);
+CALL sp_insert_movie('Y tu mamá también', 2001, @mx, @cl_nc17,
+    'Dos amigos adolescentes emprenden un viaje por carretera con una mujer mayor que cambiará sus vidas.',
+    9069, @p_cuaron, @dr_dir, @g_drama, @g_comedy, NULL);
