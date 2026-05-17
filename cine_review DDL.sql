@@ -585,3 +585,26 @@ LEFT JOIN movie_genre mg ON mg.genre_id = g.id
 LEFT JOIN review      r  ON r.movie_id = mg.movie_id
 GROUP BY g.id, g.name
 ORDER BY total_reviews DESC;
+
+CREATE VIEW v_watchlist_popularity AS
+SELECT
+    m.title,
+    m.release_year,
+    g_list.genres,
+    COUNT(DISTINCT w.user_id)                                    AS total_users,
+    SUM(CASE WHEN sw.name = 'WATCHED'  THEN 1 ELSE 0 END)       AS watched,
+    SUM(CASE WHEN sw.name = 'WATCHING' THEN 1 ELSE 0 END)       AS watching,
+    SUM(CASE WHEN sw.name = 'PENDING'  THEN 1 ELSE 0 END)       AS pending,
+    SUM(CASE WHEN sw.name = 'DROPPED'  THEN 1 ELSE 0 END)       AS dropped
+FROM movie m
+LEFT JOIN watchlist       w  ON w.movie_id = m.id
+LEFT JOIN status_watchlist sw ON sw.id = w.status_id
+LEFT JOIN (
+    SELECT mg.movie_id,
+           GROUP_CONCAT(g.name ORDER BY g.name SEPARATOR ', ') AS genres
+    FROM movie_genre mg
+    INNER JOIN genre g ON g.id = mg.genre_id
+    GROUP BY mg.movie_id
+) g_list ON g_list.movie_id = m.id
+GROUP BY m.id, m.title, m.release_year, g_list.genres
+ORDER BY total_users DESC;
