@@ -573,3 +573,15 @@ LEFT JOIN classification  cl ON cl.id = m.classification_id
 LEFT JOIN movie_award     ma ON ma.movie_id = m.id
 GROUP BY m.id, m.title, m.release_year, cl.name, c.name
 ORDER BY avg_rating DESC;
+
+CREATE VIEW v_genre_popularity AS
+SELECT
+    g.name                       AS genre,
+    COUNT(DISTINCT mg.movie_id)  AS total_movies,
+    COUNT(DISTINCT r.id)         AS total_reviews,
+    ROUND(AVG(r.rating), 2)      AS avg_rating
+FROM genre g
+LEFT JOIN movie_genre mg ON mg.genre_id = g.id
+LEFT JOIN review      r  ON r.movie_id = mg.movie_id
+GROUP BY g.id, g.name
+ORDER BY total_reviews DESC;
