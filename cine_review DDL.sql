@@ -608,3 +608,21 @@ LEFT JOIN (
 ) g_list ON g_list.movie_id = m.id
 GROUP BY m.id, m.title, m.release_year, g_list.genres
 ORDER BY total_users DESC;
+
+CREATE VIEW v_user_activity AS
+SELECT
+    u.name,
+    u.last_name,
+    u.email,
+    c.name                       AS country,
+    COUNT(DISTINCT r.id)         AS total_reviews,
+    ROUND(AVG(r.rating), 2)      AS avg_rating_given,
+    COUNT(DISTINCT w.id)         AS total_watchlist,
+    SUM(CASE WHEN sw.name = 'WATCHED' THEN 1 ELSE 0 END) AS movies_watched
+FROM app_user u
+LEFT JOIN review          r  ON r.user_id = u.id
+LEFT JOIN watchlist       w  ON w.user_id = u.id
+LEFT JOIN status_watchlist sw ON sw.id = w.status_id
+LEFT JOIN country         c  ON c.id = u.country_id
+GROUP BY u.id, u.name, u.last_name, u.email, c.name
+ORDER BY total_reviews DESC;
