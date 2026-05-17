@@ -626,3 +626,17 @@ LEFT JOIN status_watchlist sw ON sw.id = w.status_id
 LEFT JOIN country         c  ON c.id = u.country_id
 GROUP BY u.id, u.name, u.last_name, u.email, c.name
 ORDER BY total_reviews DESC;
+
+CREATE VIEW v_genre_by_user_preference AS
+SELECT
+    u.name,
+    u.last_name,
+    g.name                  AS genre,
+    COUNT(DISTINCT r.id)    AS reviews_in_genre,
+    ROUND(AVG(r.rating), 2) AS avg_rating_in_genre
+FROM app_user u
+INNER JOIN review      r  ON r.user_id = u.id
+INNER JOIN movie_genre mg ON mg.movie_id = r.movie_id
+INNER JOIN genre       g  ON g.id = mg.genre_id
+GROUP BY u.id, u.name, u.last_name, g.id, g.name
+ORDER BY u.last_name, reviews_in_genre DESC;
