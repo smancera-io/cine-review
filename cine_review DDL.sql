@@ -640,3 +640,21 @@ INNER JOIN movie_genre mg ON mg.movie_id = r.movie_id
 INNER JOIN genre       g  ON g.id = mg.genre_id
 GROUP BY u.id, u.name, u.last_name, g.id, g.name
 ORDER BY u.last_name, reviews_in_genre DESC;
+
+CREATE VIEW v_country_performance AS
+SELECT
+    c.name                       AS country,
+    COUNT(DISTINCT m.id)         AS movies_produced,
+    COUNT(DISTINCT r.id)         AS total_reviews,
+    ROUND(AVG(r.rating), 2)      AS avg_rating,
+    COUNT(DISTINCT w.user_id)    AS users_from_country,
+    SUM(CASE WHEN ma.won THEN 1 ELSE 0 END) AS total_awards_won
+FROM country c
+LEFT JOIN movie       m  ON m.country_id = c.id
+LEFT JOIN review      r  ON r.movie_id = m.id
+LEFT JOIN watchlist   w  ON w.user_id IN (
+    SELECT id FROM app_user WHERE country_id = c.id
+)
+LEFT JOIN movie_award ma ON ma.movie_id = m.id AND ma.won = TRUE
+GROUP BY c.id, c.name
+ORDER BY total_reviews DESC;
