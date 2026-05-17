@@ -658,3 +658,23 @@ LEFT JOIN watchlist   w  ON w.user_id IN (
 LEFT JOIN movie_award ma ON ma.movie_id = m.id AND ma.won = TRUE
 GROUP BY c.id, c.name
 ORDER BY total_reviews DESC;
+
+CREATE VIEW v_streaming_reach AS
+SELECT
+    sp.name                      AS platform,
+    COUNT(DISTINCT mp.movie_id)  AS total_movies,
+    COUNT(DISTINCT r.id)         AS total_reviews,
+    ROUND(AVG(r.rating), 2)      AS avg_rating,
+    GROUP_CONCAT(
+        DISTINCT g.name
+        ORDER BY g.name
+        SEPARATOR ', '
+    )                            AS top_genres
+FROM streaming_platform sp
+LEFT JOIN movie_platform mp ON mp.platform_id = sp.id
+    AND (mp.available_until IS NULL OR mp.available_until > CURDATE())
+LEFT JOIN review        r  ON r.movie_id = mp.movie_id
+LEFT JOIN movie_genre   mg ON mg.movie_id = mp.movie_id
+LEFT JOIN genre         g  ON g.id = mg.genre_id
+GROUP BY sp.id, sp.name
+ORDER BY total_movies DESC;
