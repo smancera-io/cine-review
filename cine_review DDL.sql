@@ -556,3 +556,20 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+CREATE VIEW v_movie_ranking AS
+SELECT
+    m.title,
+    m.release_year,
+    cl.name                      AS classification,
+    c.name                       AS country,
+    ROUND(AVG(r.rating), 2)      AS avg_rating,
+    COUNT(DISTINCT r.id)         AS total_reviews,
+    SUM(CASE WHEN ma.won THEN 1 ELSE 0 END) AS awards_won
+FROM movie m
+LEFT JOIN review          r  ON r.movie_id = m.id
+LEFT JOIN country         c  ON c.id = m.country_id
+LEFT JOIN classification  cl ON cl.id = m.classification_id
+LEFT JOIN movie_award     ma ON ma.movie_id = m.id
+GROUP BY m.id, m.title, m.release_year, cl.name, c.name
+ORDER BY avg_rating DESC;
