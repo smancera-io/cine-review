@@ -757,3 +757,8 @@ CALL sp_delete_review(@rv_minjun_stellar, @u_admin,  'ADMIN');
 CALL sp_get_movie_detail(@mv_parasite);
 CALL sp_get_movie_detail(@mv_inception);
 CALL sp_get_movie_detail(@mv_stellar);
+
+CALL sp_get_user_watchlist(@u_carlos);
+CALL sp_get_user_watchlist(@u_laura);
+CALL sp_get_user_watchlist(@u_minjun);
+CALL sp_get_user_watchlist(@u_minjun);
