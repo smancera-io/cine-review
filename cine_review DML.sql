@@ -737,3 +737,11 @@ CALL sp_update_review(@rv_laura_roma, @u_laura, 10,
     'Actualización: con el tiempo entiendo que es una obra maestra absoluta.');
 CALL sp_update_review(@rv_minjun_dune, @u_minjun, 9,
     'Actualización: la segunda parte me convenció de subir la calificación.');
+    
+SET @wl_carlos_barbie = (SELECT id FROM watchlist WHERE user_id = @u_carlos AND movie_id = @mv_barbie);
+SET @wl_laura_dune    = (SELECT id FROM watchlist WHERE user_id = @u_laura  AND movie_id = @mv_dune);
+SET @wl_minjun_barbie = (SELECT id FROM watchlist WHERE user_id = @u_minjun AND movie_id = @mv_barbie);
+
+CALL sp_update_watchlist_status(@wl_carlos_barbie, @u_carlos, @ws_done);
+CALL sp_update_watchlist_status(@wl_laura_dune,    @u_laura,  @ws_done);
+CALL sp_update_watchlist_status(@wl_minjun_barbie, @u_minjun, @ws_wtch);
