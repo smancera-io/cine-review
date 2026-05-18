@@ -716,3 +716,12 @@ CALL sp_insert_movie('Y tu mamá también', 2001, @mx, @cl_nc17,
 CALL sp_insert_person('Paul Thomas', 'Anderson', '1970-06-26', @us, 'DIRECTOR', @ds_psych);
 CALL sp_insert_person('Florence', 'Pugh', '1996-01-03', @uk, 'ACTOR', @am_stan);
 CALL sp_insert_person('Ke Huy', 'Quan', '1971-08-20', @us, 'ACTOR', @am_meis);
+
+CALL sp_register_user('Sofía',  'González', 'sofia.gonzalez@email.com',
+    '$2a$12$SoFiAhAsHeDpAsSwOrD1234567890AbCdEfGhIjKlMnOpQrStUv', @co, '1993-06-12', @r_user);
+
+CALL sp_register_user('James',  'Park',     'james.park@email.com',
+    '$2a$12$JaMeSpArKhAsHeDpAsS1234567890AbCdEfGhIjKlMnOpQrSt', @kr, '1997-09-30', @r_user);
+
+CALL sp_register_user('Marie',  'Dupont',   'marie.dupont@email.com',
+    '$2a$12$MaRiEdUpOnThAsHeDpAs1234567890AbCdEfGhIjKlMnOpQr', @fr, '2001-03-18', @r_user);
