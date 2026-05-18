@@ -712,3 +712,7 @@ CALL sp_insert_movie('Sicario', 2015, @us, @cl_r,
 CALL sp_insert_movie('Y tu mamá también', 2001, @mx, @cl_nc17,
     'Dos amigos adolescentes emprenden un viaje por carretera con una mujer mayor que cambiará sus vidas.',
     9069, @p_cuaron, @dr_dir, @g_drama, @g_comedy, NULL);
+    
+CALL sp_insert_person('Paul Thomas', 'Anderson', '1970-06-26', @us, 'DIRECTOR', @ds_psych);
+CALL sp_insert_person('Florence', 'Pugh', '1996-01-03', @uk, 'ACTOR', @am_stan);
+CALL sp_insert_person('Ke Huy', 'Quan', '1971-08-20', @us, 'ACTOR', @am_meis);
