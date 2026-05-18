@@ -753,3 +753,7 @@ SET @rv_minjun_stellar= (SELECT id FROM review WHERE user_id = @u_minjun AND mov
 CALL sp_delete_review(@rv_jiwoo_eeaao,    @u_jiwoo,  'USER');
 CALL sp_delete_review(@rv_laura_blade,    @u_laura,  'USER');
 CALL sp_delete_review(@rv_minjun_stellar, @u_admin,  'ADMIN');
+
+CALL sp_get_movie_detail(@mv_parasite);
+CALL sp_get_movie_detail(@mv_inception);
+CALL sp_get_movie_detail(@mv_stellar);
