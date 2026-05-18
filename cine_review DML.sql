@@ -745,3 +745,11 @@ SET @wl_minjun_barbie = (SELECT id FROM watchlist WHERE user_id = @u_minjun AND 
 CALL sp_update_watchlist_status(@wl_carlos_barbie, @u_carlos, @ws_done);
 CALL sp_update_watchlist_status(@wl_laura_dune,    @u_laura,  @ws_done);
 CALL sp_update_watchlist_status(@wl_minjun_barbie, @u_minjun, @ws_wtch);
+
+SET @rv_jiwoo_eeaao   = (SELECT id FROM review WHERE user_id = @u_jiwoo  AND movie_id = @mv_eeaao);
+SET @rv_laura_blade   = (SELECT id FROM review WHERE user_id = @u_laura  AND movie_id = @mv_blade);
+SET @rv_minjun_stellar= (SELECT id FROM review WHERE user_id = @u_minjun AND movie_id = @mv_stellar);
+
+CALL sp_delete_review(@rv_jiwoo_eeaao,    @u_jiwoo,  'USER');
+CALL sp_delete_review(@rv_laura_blade,    @u_laura,  'USER');
+CALL sp_delete_review(@rv_minjun_stellar, @u_admin,  'ADMIN');
