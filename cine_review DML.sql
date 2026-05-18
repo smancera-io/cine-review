@@ -725,3 +725,15 @@ CALL sp_register_user('James',  'Park',     'james.park@email.com',
 
 CALL sp_register_user('Marie',  'Dupont',   'marie.dupont@email.com',
     '$2a$12$MaRiEdUpOnThAsHeDpAs1234567890AbCdEfGhIjKlMnOpQr', @fr, '2001-03-18', @r_user);
+    
+-- Recuperar IDs de las reseñas a actualizar
+SET @rv_carlos_inception = (SELECT id FROM review WHERE user_id = @u_carlos AND movie_id = @mv_inception);
+SET @rv_laura_roma       = (SELECT id FROM review WHERE user_id = @u_laura  AND movie_id = @mv_roma);
+SET @rv_minjun_dune      = (SELECT id FROM review WHERE user_id = @u_minjun AND movie_id = @mv_dune);
+
+CALL sp_update_review(@rv_carlos_inception, @u_carlos, 10,
+    'Actualización: narrativa perfecta en todos los sentidos. El trompo sigue girando.');
+CALL sp_update_review(@rv_laura_roma, @u_laura, 10,
+    'Actualización: con el tiempo entiendo que es una obra maestra absoluta.');
+CALL sp_update_review(@rv_minjun_dune, @u_minjun, 9,
+    'Actualización: la segunda parte me convenció de subir la calificación.');
