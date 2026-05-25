@@ -414,40 +414,23 @@ FROM movie
 WHERE release_year > 2015
 ORDER BY release_year DESC;
 
-/* Query of people born before 1975 */
-SELECT name, last_name, birth_date
-FROM person
-WHERE birth_date < '1975-01-01'
-ORDER BY birth_date;
-
 /* Query of reviews with rating greater than or equal to 9 */
 SELECT id, rating, body
 FROM review
 WHERE rating >= 9
 ORDER BY rating DESC;
 
-/* Query of classifications restricting viewers under 12 */
+/* Query of classifications restricting viewers over 12 */
 SELECT classification_system, name, min_age
 FROM classification
 WHERE min_age > 12
 ORDER BY min_age;
-
-/* Query of production companies founded between 1990 and 2010 */
-SELECT name, founded_year
-FROM production_company
-WHERE founded_year >= 1990 AND founded_year <= 2010
-ORDER BY founded_year;
 
 /* Query of movies with an assigned tmdb_id */
 SELECT title, release_year, tmdb_id
 FROM movie
 WHERE tmdb_id IS NOT NULL
 ORDER BY release_year DESC;
-
-/* Query of movies without a TMDB link */
-SELECT title, release_year
-FROM movie
-WHERE tmdb_id IS NULL;
 
 /* Query of expired platform availabilities */
 SELECT movie_id, platform_id, available_since, available_until
@@ -489,13 +472,6 @@ LEFT JOIN movie_genre mg ON mg.genre_id = g.id
 GROUP BY g.id, g.name
 ORDER BY total_movies DESC;
 
-/* Query of minimum and maximum age per classification system */
-SELECT classification_system,
-       MIN(min_age) AS min_age_floor,
-       MAX(min_age) AS max_age_ceiling
-FROM classification
-GROUP BY classification_system;
-
 /* Query of reviewer activity */
 SELECT user_id,
        COUNT(*) AS reviews_written,
@@ -507,12 +483,6 @@ GROUP BY user_id
 ORDER BY reviews_written DESC;
 
 /* Queries with dates */
-/* Query of people born in the second semester */
-SELECT name, last_name, birth_date
-FROM person
-WHERE MONTH(birth_date) >= 7
-ORDER BY MONTH(birth_date), DAY(birth_date);
-
 /* Query of users registered in the current year */
 SELECT name, last_name, email, created_at
 FROM app_user
@@ -535,22 +505,6 @@ WHERE ma.year >= 2015 AND ma.year <= 2025
 GROUP BY ma.year
 ORDER BY ma.year DESC;
 
-/* Query of month with the most birthdays among registered people */
-SELECT MONTH(birth_date) AS birth_month,
-       COUNT(*) AS total_persons
-FROM person
-GROUP BY MONTH(birth_date)
-ORDER BY total_persons DESC;
-
-/* Multi-table queries */
-/* Query of platform availabilities expiring this year */
-SELECT m.title, sp.name AS platform, mp.available_until
-FROM movie_platform mp
-JOIN movie m ON m.id = mp.movie_id
-JOIN streaming_platform sp ON sp.id = mp.platform_id
-WHERE YEAR(mp.available_until) = YEAR(CURDATE())
-ORDER BY mp.available_until;
-
 /* Query of directors older than 50 years */
 SELECT p.name, p.last_name, p.birth_date,
        TIMESTAMPDIFF(YEAR, p.birth_date, CURDATE()) AS age
@@ -559,6 +513,7 @@ JOIN director d ON d.id = p.id
 WHERE TIMESTAMPDIFF(YEAR, p.birth_date, CURDATE()) > 50
 ORDER BY age DESC;
 
+/* Multi-table queries */
 /* Query of movies with country of production and classification */
 SELECT m.title, m.release_year,
        c.name AS country,
@@ -864,7 +819,6 @@ CALL sp_delete_review(@rv_minjun_stellar, @u_admin, 'ADMIN');
 /* Call to the sp_get_movie_detail stored procedure */
 CALL sp_get_movie_detail(@mv_parasite);
 CALL sp_get_movie_detail(@mv_inception);
-CALL sp_get_movie_detail(@mv_stellar);
 
 /* Call to the sp_get_user_watchlist stored procedure */
 CALL sp_get_user_watchlist(@u_carlos);
