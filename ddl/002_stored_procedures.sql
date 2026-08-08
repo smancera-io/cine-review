@@ -1,0 +1,218 @@
+/* Creation of stored procedures */
+/* Creation of the sp_insert_person stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_insert_person(
+    IN p_name VARCHAR(50),
+    IN p_last_name VARCHAR(50),
+    IN p_birth_date DATE,
+    IN p_country_id CHAR(36),
+    IN p_type VARCHAR(10),
+    IN p_style_method_id CHAR(36)
+	)
+	BEGIN
+		DECLARE v_person_id CHAR(36) DEFAULT (UUID());
+		INSERT INTO person (id, name, last_name, birth_date, country_id)
+		VALUES (v_person_id, p_name, p_last_name, p_birth_date, p_country_id);
+		IF p_type = 'DIRECTOR' THEN
+			INSERT INTO director (id, directing_style_id)
+			VALUES (v_person_id, p_style_method_id);
+		ELSEIF p_type = 'ACTOR' THEN
+			INSERT INTO actor (id, acting_method_id)
+			VALUES (v_person_id, p_style_method_id);
+		ELSE
+			SELECT 'ERROR: type must be DIRECTOR or ACTOR' AS message;
+		END IF;
+		SELECT * FROM person WHERE id = v_person_id;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_insert_movie stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_insert_movie(
+    IN p_title VARCHAR(255),
+    IN p_release_year YEAR,
+    IN p_country_id CHAR(36),
+    IN p_classification_id CHAR(36),
+    IN p_synopsis TEXT,
+    IN p_tmdb_id INT,
+    IN p_director_id CHAR(36),
+    IN p_role_id CHAR(36),
+    IN p_genre_1_id CHAR(36),
+    IN p_genre_2_id CHAR(36),
+    IN p_genre_3_id CHAR(36)
+	)
+	BEGIN
+		DECLARE v_movie_id CHAR(36) DEFAULT (UUID());
+		IF NOT EXISTS (SELECT 1 FROM director WHERE id = p_director_id) THEN
+			SELECT 'ERROR: director does not exist' AS message;
+		ELSE
+			INSERT INTO movie (id, country_id, classification_id, title, release_year, synopsis, tmdb_id)
+			VALUES (v_movie_id, p_country_id, p_classification_id, p_title, p_release_year, p_synopsis, p_tmdb_id);
+			INSERT INTO movie_director (movie_id, director_id, role_id)
+			VALUES (v_movie_id, p_director_id, p_role_id);
+			INSERT INTO movie_genre (movie_id, genre_id)
+			VALUES (v_movie_id, p_genre_1_id);
+			IF p_genre_2_id IS NOT NULL THEN
+				INSERT INTO movie_genre (movie_id, genre_id)
+				VALUES (v_movie_id, p_genre_2_id);
+			END IF;
+			IF p_genre_3_id IS NOT NULL THEN
+				INSERT INTO movie_genre (movie_id, genre_id)
+				VALUES (v_movie_id, p_genre_3_id);
+			END IF;
+			SELECT * FROM movie WHERE id = v_movie_id;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_register_user stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_register_user(
+    IN p_name VARCHAR(50),
+    IN p_last_name VARCHAR(50),
+    IN p_email VARCHAR(255),
+    IN p_password_hash VARCHAR(255),
+    IN p_country_id CHAR(36),
+    IN p_birth_date DATE,
+    IN p_role_id CHAR(36)
+	)
+	BEGIN
+		IF EXISTS (SELECT 1 FROM app_user WHERE email = p_email) THEN
+			SELECT 'ERROR: email already registered' AS message;
+		ELSE
+			INSERT INTO app_user (id, role_id, name, last_name, email, password_hash, country_id, birth_date)
+			VALUES (UUID(), p_role_id, p_name, p_last_name, p_email, p_password_hash, p_country_id, p_birth_date);
+			SELECT * FROM app_user WHERE email = p_email;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_update_review stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_update_review(
+    IN p_review_id CHAR(36),
+    IN p_user_id CHAR(36),
+    IN p_rating TINYINT,
+    IN p_body TEXT
+	)
+	BEGIN
+		IF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id AND user_id = p_user_id) THEN
+			SELECT 'ERROR: review not found or not authorized' AS message;
+		ELSE
+			UPDATE review
+				SET rating = p_rating,
+					body = p_body
+			WHERE id = p_review_id;
+			SELECT * FROM review WHERE id = p_review_id;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_update_watchlist_status stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_update_watchlist_status(
+    IN p_watchlist_id CHAR(36),
+    IN p_user_id CHAR(36),
+    IN p_status_id CHAR(36)
+	)
+	BEGIN
+		IF NOT EXISTS (SELECT 1 FROM watchlist WHERE id = p_watchlist_id AND user_id = p_user_id) THEN
+			SELECT 'ERROR: entry not found or not authorized' AS message;
+		ELSE
+			UPDATE watchlist
+				SET status_id = p_status_id
+			WHERE id = p_watchlist_id;
+			SELECT * FROM watchlist WHERE id = p_watchlist_id;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_get_movie_detail stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_get_movie_detail(
+    IN p_movie_id CHAR(36)
+	)
+	BEGIN
+		IF NOT EXISTS (SELECT 1 FROM movie WHERE id = p_movie_id) THEN
+			SELECT 'ERROR: movie not found' AS message;
+		ELSE
+			SELECT
+				m.title,
+				m.release_year,
+				m.synopsis,
+				c.name AS country,
+				cl.name AS classification,
+				p.name AS director_name,
+				p.last_name AS director_last_name,
+				ROUND(AVG(r.rating), 2) AS avg_rating,
+				COUNT(DISTINCT r.id) AS total_reviews
+			FROM movie m
+			LEFT JOIN country c ON c.id = m.country_id
+			LEFT JOIN classification cl ON cl.id = m.classification_id
+			LEFT JOIN movie_director md ON md.movie_id = m.id
+			LEFT JOIN director d ON d.id = md.director_id
+			LEFT JOIN person p ON p.id = d.id
+			LEFT JOIN review r ON r.movie_id = m.id
+			WHERE m.id = p_movie_id
+			GROUP BY m.title, m.release_year, m.synopsis,
+                c.name, cl.name, p.name, p.last_name;
+			SELECT g.name AS genre
+			FROM movie_genre mg
+			JOIN genre g ON g.id = mg.genre_id
+			WHERE mg.movie_id = p_movie_id;
+			SELECT
+				p.name,
+				p.last_name,
+				ma.character_name,
+				ma.is_lead
+			FROM movie_actor ma
+			JOIN actor a ON a.id = ma.actor_id
+			JOIN person p ON p.id = a.id
+			WHERE ma.movie_id = p_movie_id
+			ORDER BY ma.is_lead DESC;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_get_user_watchlist stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_get_user_watchlist(
+    IN p_user_id CHAR(36)
+	)
+	BEGIN
+		IF NOT EXISTS (SELECT 1 FROM app_user WHERE id = p_user_id) THEN
+			SELECT 'ERROR: user not found' AS message;
+		ELSE
+			SELECT
+				m.title,
+				m.release_year,
+				sw.name AS status,
+				w.added_at
+			FROM watchlist w
+			JOIN movie m ON m.id = w.movie_id
+            JOIN status_watchlist sw ON sw.id = w.status_id
+			WHERE w.user_id = p_user_id
+			ORDER BY w.added_at DESC;
+		END IF;
+	END$$
+DELIMITER ;
+
+/* Creation of the sp_delete_review stored procedure */
+DELIMITER $$
+CREATE PROCEDURE sp_delete_review(
+    IN p_review_id CHAR(36),
+    IN p_user_id CHAR(36),
+    IN p_role_name VARCHAR(50)
+	)
+	BEGIN
+		IF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id) THEN
+			SELECT 'ERROR: review not found' AS message;
+		ELSEIF NOT EXISTS (SELECT 1 FROM review WHERE id = p_review_id AND user_id = p_user_id)
+			AND p_role_name != 'ADMIN' THEN
+			SELECT 'ERROR: not authorized' AS message;
+		ELSE
+			DELETE FROM review WHERE id = p_review_id;
+			SELECT 'OK: review deleted' AS message;
+		END IF;
+	END$$
+DELIMITER ;
