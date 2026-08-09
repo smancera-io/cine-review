@@ -14,8 +14,8 @@
 *
 *   COLUMN p_type: Drives explicit branching logic (if/elseif) that decides which child table to insert into. MySQL has no native mechanism for this. The procedure 
 *   implements table-per-type dispatch by hand.
-*   IF structure p_type: Matches neither director nor actor, the person row has already been inserted before that check run. No explicit transaction. An invalid p_type 
-*   leaves that person row committed with no corresponding director/actor row: an orphaned person, not caught or rolled back. Same gap as sp_insert_movie below.
+*   IF structure p_type: When p_type matches neither director nor actor, the person row has already been inserted before that check runs. No explicit transaction. An 
+*   invalid p_type leaves that person row committed with no corresponding director/actor row: an orphaned person, not caught or rolled back. Same gap as sp_insert_movie below.
 */
 DELIMITER $$
 CREATE PROCEDURE sp_insert_person(
@@ -150,7 +150,7 @@ DELIMITER ;
 *   Procedure: update_watchlist_status.
 *   Lets a user update the status of a movie in their own watchlist.
 *
-*   IF structure: Same authorization pattern as sp_update_review the where clause checks id and user_id together, so a user can only modify their own watchlist entries.
+*   IF structure: Same authorization pattern as sp_update_review. The where clause checks id and user_id together, so a user can only modify their own watchlist entries.
 */
 DELIMITER $$
 CREATE PROCEDURE sp_update_watchlist_status(
@@ -172,7 +172,7 @@ DELIMITER ;
 
 /*
 *   Procedure: get_movie_detail.
-*   Read-only. Returns 3 independent result sets in a single call: Movie details (with average rating and review count), its list of genres, and its cast. Not obvious 
+*   Read-only. Returns 3 independent result sets in a single call: Movie details (with average rating and review count), its list of genres, and its cast. This is not obvious 
 *   from the signature alone, a caller needs to read all 3 result sets, not just the first.
 *
 *   Use LEFT JOIN instead of INNER JOIN in the first query: A movie with no reviews yet, or missing an optional field like country, must still return its row. With 
@@ -255,7 +255,7 @@ DELIMITER ;
 
 /*
 *   Procedure: delete_review
-*   Deletes a review, either the review's own author, or any user with the ADMIN role, is allowed to delete it.
+*   Deletes a review, only the the review's own author, or any user with the ADMIN role, is allowed to delete it.
 *
 *   COLUMN p_role_name: Carries the caller's role so the procedure can apply that owner-or-admin rule directly: delete if user_id matches, OR if p_role_name = 'ADMIN'. 
 *   This is real access control, not just an existence check.
