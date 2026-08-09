@@ -87,8 +87,7 @@ CREATE VIEW v_watchlist_popularity AS
 
 /*
 *   View: user_activity.
-*   Rank users by total reviews. Besides, it shows personal information (name, last name, email, country), average rating given, total movies in watchlist 
-*   and movies watched.
+*   Rank users by total reviews. Besides, it shows personal information (name, last name, email, country), average rating given, total movies in watchlist and movies watched.
 *
 *   Use LEFT JOIN instead of INNER JOIN: Users without any review must appear with all their information and statistics in 0, don't disappear.
 *   COALESCE (AVG(...), 0): Its function acts when a user hasn't given any review and their rating given is null, replacing null with 0. 
