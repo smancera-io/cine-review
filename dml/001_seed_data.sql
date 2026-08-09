@@ -12,14 +12,14 @@ INSERT INTO
     country (id, name) 
 VALUES
 	(@co, 'Colombia'),
-	(@us, 'Estados Unidos'),
-	(@kr, 'Corea del Sur'),
-	(@uk, 'Reino Unido'),
-	(@fr, 'Francia'),
-	(@mx, 'México'),
-	(@ca, 'Canadá'),
-	(@jp, 'Japón'),
-	(@de, 'Alemania');
+	(@us, 'United States'),
+	(@kr, 'South Korea'),
+	(@uk, 'United Kingdom'),
+	(@fr, 'France'),
+	(@mx, 'Mexico'),
+	(@ca, 'Canada'),
+	(@jp, 'Japan'),
+	(@de, 'Germany');
 
 /* Insertion of values into the genre table */
 SET @g_scifi = UUID(); 
@@ -35,16 +35,16 @@ SET @g_bio = UUID();
 INSERT INTO
     genre (id, name) 
 VALUES
-	(@g_scifi, 'Ciencia Ficción'),
+	(@g_scifi, 'Science Fiction'),
 	(@g_drama, 'Drama'),
 	(@g_thriller, 'Thriller'),
-	(@g_horror, 'Terror'),
-	(@g_comedy, 'Comedia'),
-	(@g_action, 'Acción'),
-	(@g_anim, 'Animación'),
-	(@g_doc, 'Documental'),
+	(@g_horror, 'Horror'),
+	(@g_comedy, 'Comedy'),
+	(@g_action, 'Action'),
+	(@g_anim, 'Animation'),
+	(@g_doc, 'Documentary'),
 	(@g_romance, 'Romance'),
-	(@g_bio, 'Biográfico');
+	(@g_bio, 'Biography');
 
 /* Insertion of values into the award_category table */
 SET @ac_film = UUID(); 
@@ -57,13 +57,13 @@ SET @ac_intl = UUID();
 INSERT INTO 
     award_category (id, name) 
 VALUES
-	(@ac_film, 'Mejor Película'),
-	(@ac_dir, 'Mejor Director'),
-	(@ac_actor, 'Mejor Actor Principal'),
-	(@ac_act, 'Mejor Actriz Principal'),
-	(@ac_scrpt, 'Mejor Guión Original'),
-	(@ac_photo, 'Mejor Fotografía'),
-	(@ac_intl, 'Mejor Película Internacional');
+	(@ac_film, 'Best Picture'),
+	(@ac_dir, 'Best Director'),
+	(@ac_actor, 'Best Actor'),
+	(@ac_act, 'Best Actress'),
+	(@ac_scrpt, 'Best Original Screenplay'),
+	(@ac_photo, 'Best Cinematography'),
+	(@ac_intl, 'Best International Feature');
 
 /* Insertion of values into the directing_style table */
 SET @ds_epic = UUID(); 
@@ -75,12 +75,12 @@ SET @ds_dark = UUID();
 INSERT INTO 
     directing_style (id, name) 
 VALUES
-	(@ds_epic, 'Cine Épico'),
-	(@ds_neo, 'Neorrealismo'),
-	(@ds_psych, 'Thriller Psicológico'),
-	(@ds_social, 'Drama Social'),
-	(@ds_sci, 'Ciencia Ficción Conceptual'),
-	(@ds_dark, 'Comedia Oscura');
+	(@ds_epic, 'Epic Cinema'),
+	(@ds_neo, 'Neorealism'),
+	(@ds_psych, 'Psychological Thriller'),
+	(@ds_social, 'Social Drama'),
+	(@ds_sci, 'Conceptual Science Fiction'),
+	(@ds_dark, 'Dark Comedy');
 
 /* Insertion of values into the acting_method table */
 SET @am_stan = UUID(); 
@@ -89,9 +89,9 @@ SET @am_brec = UUID();
 INSERT INTO 
     acting_method (id, name) 
 VALUES
-	(@am_stan, 'Método Stanislavski'),
-	(@am_meis, 'Técnica Meisner'),
-	(@am_brec, 'Teatro Épico Brechtiano');
+	(@am_stan, 'Stanislavski Method'),
+	(@am_meis, 'Meisner Technique'),
+	(@am_brec, 'Brechtian Epic Theatre');
 
 /* Insertion of values into the user_role table */
 SET @r_admin = UUID(); 
@@ -124,11 +124,11 @@ SET @cl_nc17 = UUID();
 INSERT INTO 
     classification (id, classification_system, name, description, min_age) 
 VALUES
-	(@cl_g, 'MPAA', 'G', 'Audiencia general', 0),
-	(@cl_pg, 'MPAA', 'PG', 'Orientación parental sugerida', 8),
-	(@cl_pg13, 'MPAA', 'PG-13', 'Inapropiada para menores de 13', 13),
-	(@cl_r, 'MPAA', 'R', 'Requiere adulto para menores de 17', 17),
-	(@cl_nc17, 'MPAA', 'NC-17', 'Solo adultos', 18);
+	(@cl_g, 'MPAA', 'G', 'General audiences', 0),
+	(@cl_pg, 'MPAA', 'PG', 'Parental guidance suggested', 8),
+	(@cl_pg13, 'MPAA', 'PG-13', 'Inappropriate for children under 13', 13),
+	(@cl_r, 'MPAA', 'R', 'Requires accompanying adult for under 17', 17),
+	(@cl_nc17, 'MPAA', 'NC-17', 'Adults only', 18);
 
 /* Insertion of values into the company_role table */
 SET @cr_prod = UUID(); 
@@ -178,7 +178,7 @@ VALUES
 	(@aw_oscar, 'Academy Awards', @us, 1929),
 	(@aw_bafta, 'BAFTA', @uk, 1947),
 	(@aw_cannes, 'Cannes Film Festival', @fr, 1946),
-	(@aw_fcc, 'Festival de Cine de Cartagena', @co, 1960);
+	(@aw_fcc, 'Cartagena Film Festival', @co, 1960);
 
 /* Insertion of values into the production_company table */
 SET @pc_wb = UUID(); 
@@ -310,7 +310,7 @@ SET @u_jiwoo = UUID();
 INSERT INTO 
     app_user (id, role_id, name, last_name, country_id, birth_date, email, password_hash) 
 VALUES
-	(@u_admin, @r_admin, 'Admin', 'Sistema', @co, '1990-01-01', 'admin@cinereview.com','$2a$12$KIXkJ8Q1HgZ5mN3tWvP0XOdY7RjA4sLbCuFqEwMnTzGpHyVxIaD2'),
+	(@u_admin, @r_admin, 'Admin', 'System', @co, '1990-01-01', 'admin@cinereview.com','$2a$12$KIXkJ8Q1HgZ5mN3tWvP0XOdY7RjA4sLbCuFqEwMnTzGpHyVxIaD2'),
 	(@u_carlos, @r_user, 'Carlos', 'Rodríguez', @co, '1995-03-15', 'carlos.rodriguez@email.com', '$2a$12$AbCdEfGhIjKlMnOpQrStUvWxYz01234567890AbCdEfGhIjKlMnOp'),
 	(@u_laura, @r_user, 'Laura', 'Martínez', @mx, '1998-07-22', 'laura.martinez@email.com', '$2a$12$ZyXwVuTsRqPoNmLkJiHgFeDcBa9876543210ZyXwVuTsRqPoNmLk'),
 	(@u_minjun, @r_user, 'Min-jun', 'Lee', @kr, '2000-11-05', 'minjun.lee@email.com', '$2a$12$1A2B3C4D5E6F7G8H9I0JkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhH'),
@@ -332,18 +332,18 @@ SET @mv_eeaao = UUID();
 INSERT INTO 
     movie (id, country_id, classification_id, title, release_year, synopsis, tmdb_id) 
 VALUES
-	(@mv_inception, @uk, @cl_pg13, 'Inception', 2010, 'Un ladrón roba secretos corporativos mediante tecnología de sueños compartidos e intenta implantar una idea.', 27205),
-	(@mv_parasite, @kr, @cl_r, 'Parasite', 2019, 'La familia Kim se infiltra en la vida de la acomodada familia Park con consecuencias imprevisibles.', 496243),
-	(@mv_stellar, @uk, @cl_pg13, 'Interstellar', 2014, 'Un equipo de astronautas viaja por un agujero de gusano buscando un nuevo hogar para la humanidad.', 157336),
-	(@mv_dune, @us, @cl_pg13, 'Dune: Part One', 2021, 'Paul Atreides lidera a las tribus del planeta Arrakis en una guerra para vengar a su familia.', 438631),
-	(@mv_roma, @mx, @cl_r, 'Roma', 2018, 'Una empleada doméstica afronta cambios en una familia de clase media en el México de los 70.', 508442),
-	(@mv_barbie, @us, @cl_pg13, 'Barbie', 2023, 'Barbie y Ken viajan desde Barbieland al mundo real desencadenando una crisis existencial.', 346698),
-	(@mv_abrazo, @co, @cl_r, 'El abrazo de la serpiente', 2015, 'Dos expediciones científicas en la Amazonía colombiana narradas desde la perspectiva indígena.', NULL),
-	(@mv_knight, @uk, @cl_pg13, 'The Dark Knight', 2008, 'Batman enfrenta al Joker, un criminal que desafía a Gotham con un plan de caos absoluto.', 155),
-	(@mv_arrival, @ca, @cl_pg13, 'Arrival', 2016, 'Una lingüista es reclutada para comunicarse con extraterrestres que han aterrizado en la Tierra.', 329865),
-	(@mv_moonlight, @us, @cl_r, 'Moonlight', 2016, 'Un joven afroamericano explora su identidad y sexualidad en tres etapas de su vida.', 376867),
-	(@mv_blade, @us, @cl_r, 'Blade Runner 2049', 2017, 'Un blade runner descubre un secreto que puede sumir a la humanidad en el caos.', 335984),
-	(@mv_eeaao, @us, @cl_r, 'Everything Everywhere All at Once', 2022, 'Una lavandera es arrastrada a una aventura interdimensional para salvar el multiverso.', 545611);
+	(@mv_inception, @uk, @cl_pg13, 'Inception', 2010, 'A thief steals corporate secrets through shared-dream technology and attempts to plant an idea instead.', 27205),
+	(@mv_parasite, @kr, @cl_r, 'Parasite', 2019, 'The Kim family infiltrates the lives of the wealthy Park family, with unforeseeable consequences.', 496243),
+	(@mv_stellar, @uk, @cl_pg13, 'Interstellar', 2014, 'A team of astronauts travels through a wormhole in search of a new home for humanity.', 157336),
+	(@mv_dune, @us, @cl_pg13, 'Dune: Part One', 2021, 'Paul Atreides leads the tribes of the planet Arrakis in a war to avenge his family.', 438631),
+	(@mv_roma, @mx, @cl_r, 'Roma', 2018, 'A live-in housekeeper faces upheaval within a middle-class family in 1970s Mexico.', 508442),
+	(@mv_barbie, @us, @cl_pg13, 'Barbie', 2023, 'Barbie and Ken travel from Barbieland to the real world, triggering an existential crisis.', 346698),
+	(@mv_abrazo, @co, @cl_r, 'Embrace of the Serpent', 2015, 'Two scientific expeditions through the Colombian Amazon, told from an Indigenous perspective.', NULL),
+	(@mv_knight, @uk, @cl_pg13, 'The Dark Knight', 2008, 'Batman faces the Joker, a criminal who challenges Gotham with a plan of absolute chaos.', 155),
+	(@mv_arrival, @ca, @cl_pg13, 'Arrival', 2016, 'A linguist is recruited to communicate with extraterrestrials who have landed on Earth.', 329865),
+	(@mv_moonlight, @us, @cl_r, 'Moonlight', 2016, 'A young Black man explores his identity and sexuality across three stages of his life.', 376867),
+	(@mv_blade, @us, @cl_r, 'Blade Runner 2049', 2017, 'A blade runner uncovers a secret that could plunge humanity into chaos.', 335984),
+	(@mv_eeaao, @us, @cl_r, 'Everything Everywhere All at Once', 2022, 'A laundromat owner is pulled into an interdimensional adventure to save the multiverse.', 545611);
 
 /* Insertion of values into the movie_director table */
 INSERT INTO 
@@ -438,25 +438,25 @@ VALUES
 INSERT INTO 
     review (user_id, movie_id, rating, body) 
 VALUES
-	(@u_carlos, @mv_inception, 9, 'Narrativa en capas construida con precisión quirúrgica.'),
-	(@u_carlos, @mv_stellar, 10,'La escena del planeta oceánico es una de las más perturbadoras del cine moderno.'),
-	(@u_carlos, @mv_parasite, 10, 'Magistral en todos los aspectos. Bong Joon-ho en su punto más alto.'),
-	(@u_carlos, @mv_knight, 10, 'Heath Ledger redefine lo que un villano puede ser.'),
-	(@u_carlos, @mv_arrival, 9, 'El giro narrativo final recontextualiza toda la película.'),
-	(@u_carlos, @mv_moonlight, 9, 'Poesía visual. Jenkins hace de lo íntimo algo universal.'),
-	(@u_carlos, @mv_roma, 10, 'Cuarón eleva lo cotidiano a lo trascendente.'),
-	(@u_carlos, @mv_eeaao, 8, 'Caótico y hermoso a la vez. Un triunfo del cine independiente.'),
-	(@u_laura, @mv_parasite, 9, 'Crítica social envuelta en un thriller de precisión milimétrica.'),
-	(@u_laura, @mv_inception, 8, 'Visualmente impresionante, aunque el final genera más preguntas que respuestas.'),
-	(@u_laura, @mv_roma, 9, 'Profundamente humana. Una de las mejores del cine latinoamericano.'),
-	(@u_laura, @mv_dune, 8, 'Épica visual espectacular, aunque funciona más como prólogo.'),
-	(@u_laura,  @mv_blade, 7, 'Atmosférica y hermosa, pero el ritmo puede desesperar.'),
-	(@u_minjun, @mv_parasite, 10, 'Una película perfecta. Orgullo del cine coreano.'),
-	(@u_minjun, @mv_stellar, 9, 'Científicamente rigurosa y emocionalmente devastadora.'),
-	(@u_minjun, @mv_dune, 8, 'Impresionante escala visual. La segunda parte prometía aún más.'),
-	(@u_minjun, @mv_moonlight, 10, 'Una de las películas más importantes de la última década.'),
-	(@u_jiwoo,  @mv_arrival, 10, 'El lenguaje como clave del tiempo. Brillante.'),
-	(@u_jiwoo,  @mv_eeaao, 9, 'Absurda, emotiva y profunda. Completamente única.');
+	(@u_carlos, @mv_inception, 9, 'A layered narrative built with surgical precision.'),
+	(@u_carlos, @mv_stellar, 10,'The ocean planet scene is one of the most unsettling in modern cinema.'),
+	(@u_carlos, @mv_parasite, 10, 'Masterful in every aspect. Bong Joon-ho at his absolute best.'),
+	(@u_carlos, @mv_knight, 10, 'Heath Ledger redefines what a villain can be.'),
+	(@u_carlos, @mv_arrival, 9, 'The final twist recontextualizes the entire film.'),
+	(@u_carlos, @mv_moonlight, 9, 'Visual poetry. Jenkins turns the intimate into the universal.'),
+	(@u_carlos, @mv_roma, 10, 'Cuarón elevates the everyday into the transcendent.'),
+	(@u_carlos, @mv_eeaao, 8, 'Chaotic and beautiful all at once. A triumph of independent cinema.'),
+	(@u_laura, @mv_parasite, 9, 'Social critique wrapped in a razor-precise thriller.'),
+	(@u_laura, @mv_inception, 8, 'Visually stunning, though the ending raises more questions than it answers.'),
+	(@u_laura, @mv_roma, 9, 'Deeply human. One of the best films to come out of Latin American cinema.'),
+	(@u_laura, @mv_dune, 8, 'A spectacular visual epic, though it plays more like a prologue.'),
+	(@u_laura,  @mv_blade, 7, 'Atmospheric and gorgeous, but the pacing can test your patience.'),
+	(@u_minjun, @mv_parasite, 10, 'A perfect film. A point of pride for Korean cinema.'),
+	(@u_minjun, @mv_stellar, 9, 'Scientifically rigorous and emotionally devastating.'),
+	(@u_minjun, @mv_dune, 8, 'Stunning visual scale. Part two promised even more.'),
+	(@u_minjun, @mv_moonlight, 10, 'One of the most important films of the last decade.'),
+	(@u_jiwoo,  @mv_arrival, 10, 'Language is the key to time itself. Brilliant.'),
+	(@u_jiwoo,  @mv_eeaao, 9, 'Absurd, emotional, and profound. Completely unlike anything else.');
 
 /* Insertion of values into the watchlist table */
 INSERT INTO 
