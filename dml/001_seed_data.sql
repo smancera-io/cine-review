@@ -1,4 +1,13 @@
-/* Insertion of values into the country table */
+/*
+*   Seed data: It's demo content for the cine-review schema.
+*   Populates all 28 tables with baseline data.
+*   Run after ddl/* have created the schema. See 003_procedures_driven_data.sql for additional rows inserted afterward via stored procedures rather 
+*   than direct INSERT.
+*/
+
+/* 
+*   Insertion of values into the country table. 
+*/
 SET @co = UUID(); 
 SET @us = UUID(); 
 SET @kr = UUID();
@@ -21,7 +30,9 @@ VALUES
 	(@jp, 'Japan'),
 	(@de, 'Germany');
 
-/* Insertion of values into the genre table */
+/* 
+*   Insertion of values into the genre table. 
+*/
 SET @g_scifi = UUID(); 
 SET @g_drama = UUID(); 
 SET @g_thriller = UUID();
@@ -46,7 +57,9 @@ VALUES
 	(@g_romance, 'Romance'),
 	(@g_bio, 'Biography');
 
-/* Insertion of values into the award_category table */
+/* 
+*   Insertion of values into the award_category table. 
+*/
 SET @ac_film = UUID(); 
 SET @ac_dir = UUID(); 
 SET @ac_actor = UUID();
@@ -65,7 +78,9 @@ VALUES
 	(@ac_photo, 'Best Cinematography'),
 	(@ac_intl, 'Best International Feature');
 
-/* Insertion of values into the directing_style table */
+/* 
+*   Insertion of values into the directing_style table.
+*/
 SET @ds_epic = UUID(); 
 SET @ds_neo = UUID(); 
 SET @ds_psych = UUID();
@@ -82,7 +97,9 @@ VALUES
 	(@ds_sci, 'Conceptual Science Fiction'),
 	(@ds_dark, 'Dark Comedy');
 
-/* Insertion of values into the acting_method table */
+/* 
+*   Insertion of values into the acting_method table.
+*/
 SET @am_stan = UUID(); 
 SET @am_meis = UUID(); 
 SET @am_brec = UUID();
@@ -93,7 +110,9 @@ VALUES
 	(@am_meis, 'Meisner Technique'),
 	(@am_brec, 'Brechtian Epic Theatre');
 
-/* Insertion of values into the user_role table */
+/* 
+*   Insertion of values into the user_role table. 
+*/
 SET @r_admin = UUID(); 
 SET @r_user = UUID();
 INSERT INTO 
@@ -102,7 +121,9 @@ VALUES
 	(@r_admin, 'ADMIN'),
 	(@r_user, 'USER');
 
-/* Insertion of values into the subscription_type table */
+/* 
+*   Insertion of values into the subscription_type table.
+*/
 SET @st_sub = UUID(); 
 SET @st_rent = UUID();
 SET @st_free = UUID(); 
@@ -115,7 +136,9 @@ VALUES
 	(@st_free, 'FREE'),
 	(@st_buy, 'PURCHASE');
 
-/* Insertion of values into the classification table */
+/* 
+*   Insertion of values into the classification table.
+*/
 SET @cl_g = UUID(); 
 SET @cl_pg = UUID(); 
 SET @cl_pg13 = UUID();
@@ -130,7 +153,9 @@ VALUES
 	(@cl_r, 'MPAA', 'R', 'Requires accompanying adult for under 17', 17),
 	(@cl_nc17, 'MPAA', 'NC-17', 'Adults only', 18);
 
-/* Insertion of values into the company_role table */
+/* 
+*   Insertion of values into the company_role table. 
+*/
 SET @cr_prod = UUID(); 
 SET @cr_dist = UUID();
 SET @cr_co = UUID(); 
@@ -143,7 +168,9 @@ VALUES
 	(@cr_co, 'CO_PRODUCER'),
 	(@cr_exec, 'EXECUTIVE_PRODUCER');
 
-/* Insertion of values into the director_role table */
+/* 
+*   Insertion of values into the director_role table. 
+*/
 SET @dr_dir = UUID(); 
 SET @dr_codir = UUID(); 
 SET @dr_2nd = UUID();
@@ -154,7 +181,9 @@ VALUES
 	(@dr_codir, 'CO_DIRECTOR'),
 	(@dr_2nd, 'SECOND_UNIT_DIRECTOR');
 
-/* Insertion of values into the status_watchlist table */
+/* 
+*   Insertion of values into the status_watchlist table.
+*/
 SET @ws_pend = UUID(); 
 SET @ws_wtch = UUID();
 SET @ws_done = UUID(); 
@@ -167,7 +196,9 @@ VALUES
 	(@ws_done, 'WATCHED'),
 	(@ws_drop, 'DROPPED');
 
-/* Insertion of values into the award table */
+/* 
+*   Insertion of values into the award table.
+*/
 SET @aw_oscar = UUID(); 
 SET @aw_bafta = UUID();
 SET @aw_cannes = UUID(); 
@@ -180,7 +211,9 @@ VALUES
 	(@aw_cannes, 'Cannes Film Festival', @fr, 1946),
 	(@aw_fcc, 'Cartagena Film Festival', @co, 1960);
 
-/* Insertion of values into the production_company table */
+/* 
+*   Insertion of values into the production_company table. 
+*/
 SET @pc_wb = UUID(); 
 SET @pc_a24 = UUID(); 
 SET @pc_cj = UUID();
@@ -201,7 +234,9 @@ VALUES
 	(@pc_param, 'Paramount Pictures', @us, 1912),
 	(@pc_focus, 'Focus Features', @us, 2002);
 
-/* Insertion of values into the streaming_platform table */
+/* 
+*   Insertion of values into the streaming_platform table. 
+*/
 SET @sp_nflx = UUID(); 
 SET @sp_hbo = UUID();
 SET @sp_amazon = UUID(); 
@@ -214,7 +249,9 @@ VALUES
 	(@sp_amazon, 'Amazon Prime Video', @us, @st_sub),
 	(@sp_mubi, 'Mubi', @uk, @st_sub);
 
-/* Insertion of values into the person table */
+/* 
+*   Insertion of values into the person table.
+*/
 SET @p_nolan = UUID(); 
 SET @p_bong = UUID(); 
 SET @p_vil = UUID();
@@ -267,7 +304,9 @@ VALUES
 	(@p_murphy, 'Cillian', 'Murphy', '1976-05-25', @uk),
 	(@p_yeoh, 'Michelle', 'Yeoh', '1962-08-06', @us);
 
-/* Insertion of values into the director table */
+/* 
+*   Insertion of values into the director table.
+*/
 INSERT INTO 
     director (id, directing_style_id) 
 VALUES
@@ -284,7 +323,9 @@ VALUES
 	(@p_chazelle, @ds_neo),
 	(@p_mendes, @ds_epic);
 
-/* Insertion of values into the actor table */
+/* 
+*   Insertion of values into the actor table. 
+*/
 INSERT INTO 
     actor (id, acting_method_id) 
 VALUES
@@ -301,7 +342,10 @@ VALUES
 	(@p_murphy, @am_stan),
 	(@p_yeoh, @am_meis);
 
-/* Insertion of values into the app_user table */
+/* 
+*   Insertion of values into the app_user table.
+*   Password_hash values are placeholder strings shaped like bcrypt output (same length/format) for realistic seed data. Not real hashes of any actual password.
+*/
 SET @u_admin = UUID(); 
 SET @u_carlos = UUID(); 
 SET @u_laura = UUID();
@@ -316,7 +360,9 @@ VALUES
 	(@u_minjun, @r_user, 'Min-jun', 'Lee', @kr, '2000-11-05', 'minjun.lee@email.com', '$2a$12$1A2B3C4D5E6F7G8H9I0JkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhH'),
 	(@u_jiwoo,  @r_user, 'Ji-woo', 'Kim', @kr, '2002-04-20', 'jiwoo.kim@email.com', '$2a$12$MnOpQrStUvWxYz0123456789AbCdEfGhIjKlMnOpQrStUvWxYzAb');
 
-/* Insertion of values into the movie table */
+/* 
+*   Insertion of values into the movie table.
+*/
 SET @mv_inception = UUID(); 
 SET @mv_parasite = UUID();
 SET @mv_stellar = UUID(); 
@@ -339,13 +385,19 @@ VALUES
 	(@mv_roma, @mx, @cl_r, 'Roma', 2018, 'A live-in housekeeper faces upheaval within a middle-class family in 1970s Mexico.', 508442),
 	(@mv_barbie, @us, @cl_pg13, 'Barbie', 2023, 'Barbie and Ken travel from Barbieland to the real world, triggering an existential crisis.', 346698),
 	(@mv_abrazo, @co, @cl_r, 'Embrace of the Serpent', 2015, 'Two scientific expeditions through the Colombian Amazon, told from an Indigenous perspective.', NULL),
-	(@mv_knight, @uk, @cl_pg13, 'The Dark Knight', 2008, 'Batman faces the Joker, a criminal who challenges Gotham with a plan of absolute chaos.', 155),
+    /* 
+    *   tmdb_id is NULL on purpose: not every film is catalogued in The Movie Database, especially smaller regional releases this is exactly why the column is UNIQUE 
+    *   but not NOT NULL.
+    */
+    (@mv_knight, @uk, @cl_pg13, 'The Dark Knight', 2008, 'Batman faces the Joker, a criminal who challenges Gotham with a plan of absolute chaos.', 155),
 	(@mv_arrival, @ca, @cl_pg13, 'Arrival', 2016, 'A linguist is recruited to communicate with extraterrestrials who have landed on Earth.', 329865),
 	(@mv_moonlight, @us, @cl_r, 'Moonlight', 2016, 'A young Black man explores his identity and sexuality across three stages of his life.', 376867),
 	(@mv_blade, @us, @cl_r, 'Blade Runner 2049', 2017, 'A blade runner uncovers a secret that could plunge humanity into chaos.', 335984),
 	(@mv_eeaao, @us, @cl_r, 'Everything Everywhere All at Once', 2022, 'A laundromat owner is pulled into an interdimensional adventure to save the multiverse.', 545611);
 
-/* Insertion of values into the movie_director table */
+/* 
+*   Insertion of values into the movie_director table.
+*/
 INSERT INTO 
     movie_director (movie_id, director_id, role_id) 
 VALUES
@@ -362,7 +414,9 @@ VALUES
 	(@mv_blade, @p_vil, @dr_dir),
 	(@mv_eeaao, @p_dan_k, @dr_dir);
 
-/* Insertion of values into the movie_genre table */
+/* 
+*   Insertion of values into the movie_genre table.
+*/
 INSERT INTO 
     movie_genre (movie_id, genre_id) 
 VALUES
@@ -379,7 +433,9 @@ VALUES
 	(@mv_blade, @g_scifi), (@mv_blade, @g_thriller),
 	(@mv_eeaao, @g_scifi), (@mv_eeaao, @g_action), (@mv_eeaao, @g_comedy);
 
-/* Insertion of values into the movie_actor table */
+/* 
+*   Insertion of values into the movie_actor table.
+*/
 INSERT INTO 
     movie_actor (movie_id, actor_id, character_name, is_lead) 
 VALUES
@@ -396,7 +452,9 @@ VALUES
 	(@mv_eeaao, @p_yeoh, 'Evelyn Wang', TRUE),
 	(@mv_knight, @p_murphy, 'Jonathan Crane', FALSE);
 
-/* Insertion of values into the movie_company table */
+/* 
+*   Insertion of values into the movie_company table.
+*/
 INSERT INTO 
     movie_company (movie_id, company_id, role_id) 
 VALUES
@@ -416,7 +474,9 @@ VALUES
 	(@mv_blade, @pc_wb, @cr_prod),
 	(@mv_eeaao, @pc_a24, @cr_prod);
 
-/* Insertion of values into the movie_platform table */
+/* 
+*   Insertion of values into the movie_platform table.
+*/
 INSERT INTO 
     movie_platform (movie_id, platform_id, available_since, available_until) 
 VALUES
@@ -434,7 +494,9 @@ VALUES
 	(@mv_blade, @sp_amazon, '2022-01-01', NULL),
 	(@mv_eeaao, @sp_amazon, '2022-08-01', NULL);
 
-/* Insertion of values into the review table */
+/* 
+*   Insertion of values into the review table.
+*/
 INSERT INTO 
     review (user_id, movie_id, rating, body) 
 VALUES
@@ -458,7 +520,9 @@ VALUES
 	(@u_jiwoo,  @mv_arrival, 10, 'Language is the key to time itself. Brilliant.'),
 	(@u_jiwoo,  @mv_eeaao, 9, 'Absurd, emotional, and profound. Completely unlike anything else.');
 
-/* Insertion of values into the watchlist table */
+/* 
+*   Insertion of values into the watchlist table.
+*/
 INSERT INTO 
     watchlist (user_id, movie_id, status_id) 
 VALUES
@@ -473,7 +537,9 @@ VALUES
 	(@u_jiwoo, @mv_inception, @ws_done),
 	(@u_jiwoo, @mv_parasite,  @ws_done);
 
-/* Insertion of values into the movie_award table */
+/* 
+*   Insertion of values into the movie_award table.
+*/
 INSERT INTO 
     movie_award (movie_id, award_id, category_id, year, won) 
 VALUES
@@ -494,7 +560,9 @@ VALUES
 	(@mv_arrival, @aw_oscar, @ac_film, 2017, FALSE),
 	(@mv_arrival, @aw_oscar, @ac_dir, 2017, FALSE);
 
-/* Insertion of values into the person_award table */
+/* 
+*   Insertion of values into the person_award table. 
+*/
 INSERT INTO 
     person_award (person_id, award_id, category_id, year, won) 
 VALUES
