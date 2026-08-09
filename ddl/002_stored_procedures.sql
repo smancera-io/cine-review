@@ -1,5 +1,22 @@
-/* Creation of stored procedures */
-/* Creation of the sp_insert_person stored procedure */
+/*
+*   Stored procedures: The app's data-access layer for writes (insert/update/delete) plus two read helpers (movie detail, user watchlist). Called directly, not via ORM.
+*
+*   Convention: None of these return values via out parameters, each returns its result as a select result set instead. See 003_procedures_driven_data.sql's header for 
+*   why that matters when calling these from a plain SQL script.
+*   Convention: Failures come back as select 'ERROR: ...' as message, not a thrown SQL exception. A call can "succeed" with no error while still failing its business rule.
+*   Known limitation: sp_insert_person and sp_insert_movie each do multiple inserts with no explicit transaction, a failure partway through leaves earlier inserts committed, 
+*   not rolled back.
+*/
+
+/*
+*   Procedure: insert_person.
+*   Inserts a person with their base information (name, last name, birth date, country), then routes them into director or actor based on p_type.
+*
+*   COLUMN p_type: Drives explicit branching logic (if/elseif) that decides which child table to insert into. MySQL has no native mechanism for this. The procedure 
+*   implements table-per-type dispatch by hand.
+*   IF structure p_type: Matches neither director nor actor, the person row has already been inserted before that check run. No explicit transaction. An invalid p_type 
+*   leaves that person row committed with no corresponding director/actor row: an orphaned person, not caught or rolled back. Same gap as sp_insert_movie below.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_insert_person(
     IN p_name VARCHAR(50),
@@ -26,7 +43,16 @@ CREATE PROCEDURE sp_insert_person(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_insert_movie stored procedure */
+/*
+*   Procedure: insert_movie.
+*   Inserts a movie plus its director link and 1 to 3 genre links in a single call. Genres 2 and 3 are optional (null-checked before inserting).
+*
+*   IF structure: Validates the director exists before inserting anything. Fails fast with an error message instead of hitting the movie_director fk constraint after 
+*   the movie row is already created.
+*   Limitation: the movie/movie_director/movie_genre inserts are not wrapped in an explicit transaction. If a later insert in the same call fails (e.g. a bad genre_3_id), 
+*   the movie and movie_director rows already inserted stay committed. No automatic rollback.
+*   Returns the new movie row via select, see this file's header for why that matters to anything calling this from a plain script.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_insert_movie(
     IN p_title VARCHAR(255),
@@ -65,7 +91,13 @@ CREATE PROCEDURE sp_insert_movie(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_register_user stored procedure */
+/*
+*   Procedure: register_user.
+*   Inserts a new app_user with their login credentials (password hash, role) and personal information (name, last name, email, country, birth date).
+*
+*   IF structure: Checks for a duplicate email with if exists before inserting, rather than letting the email unique constraint fail and catching that error. Trades one 
+*   extra query for a controlled, readable error message instead of MySQL's raw constraint-violation error.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_register_user(
     IN p_name VARCHAR(50),
@@ -87,7 +119,13 @@ CREATE PROCEDURE sp_register_user(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_update_review stored procedure */
+/*
+*   Procedure: update_review.
+*   Lets a user edit the rating and body of a review they've already submitted.
+*
+*   IF structure: The where clause checks id and user_id together. This is access control, not just an existence check. A review that exists but belongs to someone else 
+*   returns the same "not found" error as one that doesn't exist at all, so a caller can't tell the difference between "wrong id" and "not yours."
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_update_review(
     IN p_review_id CHAR(36),
@@ -108,7 +146,12 @@ CREATE PROCEDURE sp_update_review(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_update_watchlist_status stored procedure */
+/*
+*   Procedure: update_watchlist_status.
+*   Lets a user update the status of a movie in their own watchlist.
+*
+*   IF structure: Same authorization pattern as sp_update_review the where clause checks id and user_id together, so a user can only modify their own watchlist entries.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_update_watchlist_status(
     IN p_watchlist_id CHAR(36),
@@ -127,7 +170,14 @@ CREATE PROCEDURE sp_update_watchlist_status(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_get_movie_detail stored procedure */
+/*
+*   Procedure: get_movie_detail.
+*   Read-only. Returns 3 independent result sets in a single call: Movie details (with average rating and review count), its list of genres, and its cast. Not obvious 
+*   from the signature alone, a caller needs to read all 3 result sets, not just the first.
+*
+*   Use LEFT JOIN instead of INNER JOIN in the first query: A movie with no reviews yet, or missing an optional field like country, must still return its row. With 
+*   INNER JOIN, AVG/COUNT over zero matching reviews would collapse the entire row out of the result, not just those columns.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_get_movie_detail(
     IN p_movie_id CHAR(36)
@@ -174,7 +224,13 @@ CREATE PROCEDURE sp_get_movie_detail(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_get_user_watchlist stored procedure */
+/*
+*   Procedure: get_user_watchlist
+*   Read-only. Returns a user's watchlist with movie title, status, and the date each entry was added.
+*
+*   Use INNER JOIN instead of LEFT JOIN: movie_id and status_id are NOT NULL on watchlist, so they're guaranteed to match. INNER JOIN and LEFT JOIN return identical results 
+*   here. INNER JOIN is just the more honest choice, since it reflects that those FKs always resolve. 
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_get_user_watchlist(
     IN p_user_id CHAR(36)
@@ -197,7 +253,13 @@ CREATE PROCEDURE sp_get_user_watchlist(
 	END$$
 DELIMITER ;
 
-/* Creation of the sp_delete_review stored procedure */
+/*
+*   Procedure: delete_review
+*   Deletes a review, either the review's own author, or any user with the ADMIN role, is allowed to delete it.
+*
+*   COLUMN p_role_name: Carries the caller's role so the procedure can apply that owner-or-admin rule directly: delete if user_id matches, OR if p_role_name = 'ADMIN'. 
+*   This is real access control, not just an existence check.
+*/
 DELIMITER $$
 CREATE PROCEDURE sp_delete_review(
     IN p_review_id CHAR(36),

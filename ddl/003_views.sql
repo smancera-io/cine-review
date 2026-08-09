@@ -1,5 +1,5 @@
 /*
-*   Views: read-only reporting layer.
+*   Views: Read-only reporting layer.
 *   These 7 views aggregate data from the schema defined in 001_tables.sql for analytics-style queries (rankings, activity summaries, performance by country/platform). 
 *   They are not part of the app's transactional write path.
 *
@@ -16,7 +16,7 @@
 * 
 *   Use LEFT JOIN instead of INNER JOIN: A movie without any review yet must appear likewise in the ranking, doesn't disappear.
 *   COALESCE (AVG(...), 0): Its function acts when a movie hasn't gotten any review and its rating is null, replacing null with 0. 
-*   It's a decision about how to cope with 'movies unrated'
+*   It's a decision about how to cope with 'movies unrated'.
 */
 CREATE VIEW v_movie_ranking AS
 	SELECT
@@ -41,8 +41,8 @@ CREATE VIEW v_movie_ranking AS
 *
 *   Use LEFT JOIN instead of INNER JOIN: A genre without any review or movie must appear likewise in the ranking, doesn't disappear.
 *   COALESCE (AVG(...), 0): Its function acts when a genre hasn't gotten any review and its rating is null, replacing null with 0. 
-*   It's a decision about how to cope with 'unrated genres'
- */
+*   It's a decision about how to cope with 'unrated genres'.
+*/
 CREATE VIEW v_genre_popularity AS
 	SELECT
 		g.name AS genre,
@@ -113,7 +113,7 @@ CREATE VIEW v_user_activity AS
 	ORDER BY total_reviews DESC;
 
 /* 
-*   View: genre_by_user_preference
+*   View: genre_by_user_preference.
 *   Analyze user review metrics and average ratings across genres. Showing by each user-genre total reviews and average rating.
 *
 *   Use INNER JOIN instead of LEFT JOIN: Users without any activity yet must not appear because it's an analysis of users with activity.
@@ -133,7 +133,7 @@ CREATE VIEW v_genre_by_user_preference AS
 	ORDER BY u.last_name, reviews_in_genre DESC;
 
 /*
-*   View: country_performance
+*   View: country_performance.
 *   Rank countries by total reviews associated with their movies. Besides, it shows statistics by country such as total movies produced, average rating, users from its 
 *   and total awards won.
 *
@@ -161,7 +161,7 @@ CREATE VIEW v_country_performance AS
 	ORDER BY total_reviews DESC;
 
 /*
-*   View: streaming_reach
+*   View: streaming_reach.
 *   Rank streaming platforms by total reviews. Besides, it shows information about total movies, average rating and top genres.
 *
 *   Use LEFT JOIN instead of INNER JOIN: Platforms without any movie or statistic must appear with all their information in base values as 0 or 'Empty'.
