@@ -1,32 +1,49 @@
-/* Creation of the cine_review database */
+/*
+*   Tables: Full relational schema for cine-review. 28 tables: lookup/catalog tables (single name column, referenced by everything else), the person/director/actor hierarchy, 
+*   core entities (movie, review, award, watchlist, app_user), and many to many junction tables.
+*
+*   All primary keys are surrogate UUIDs (CHAR(36) DEFAULT (UUID())), even where an external natural key exists such as tmdb_id.
+*   ON DELETE is set deliberately per relationship, not by default: CASCADE where the child row has no meaning without that specific parent (e.g. review and app_user), 
+*   RESTRICT where the parent is a shared catalog value referenced by many unrelated rows (role, category, status), SET NULL where the reference is optional/descriptive on 
+*   an otherwise still valid row (country, classification, style).
+*/
 CREATE DATABASE cine_review;
-
-/* Selection of the cine_review database to start working */
 USE cine_review;
 
-/* Creation of tables */
-/* Creation of the country table */
+/*
+*   Table: country.
+*   Catalog of countries (Colombia, United States, South Korea, etc.).
+*/
 CREATE TABLE country (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the genre table */
+/* 
+*   Table: Genre.
+*   Catalog of movie genres (Science Fiction, Drama, Thriller, etc.).
+*/
 CREATE TABLE genre (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the award_category table */
+/* 
+*   Table: award_category.
+*   Catalog of award categories (Best Director, Best Picture, etc.). 
+*/
 CREATE TABLE award_category (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(150) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the award table */
+/* 
+*   Table: award.
+*   Catalog of awarding bodies/festivals (Academy Awards, BAFTA, etc.). 
+*/
 CREATE TABLE award (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(150) NOT NULL UNIQUE,
@@ -38,7 +55,14 @@ CREATE TABLE award (
         ON DELETE SET NULL
 );
 
-/* Creation of the person table */
+/*
+*   Table: person.
+*   Industry side identity, real people who exist independently of the app (directors, actors). Superclass for the director/actor table per type hierarchy below, a plain 
+*   person row with no matching director/actor row is valid.
+*   Deliberately separate from app_user: Person is catalog identity (what the system catalogs, populated by an admin, not the subject themselves), app_user is operational 
+*   identity (who logs in and acts, self registered, needs password_hash/role_id). No real overlap in this domain: A director doesn't need to log in to review movies as 
+*   themselves. If a feature ever required that (e.g. a verified director account), that would be the trigger to reconsider unifying them, not needed for the current scope.
+*/
 CREATE TABLE person (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(50) NOT NULL,
@@ -53,14 +77,22 @@ CREATE TABLE person (
         ON DELETE SET NULL
 );
 
-/* Creation of the directing_style table */
+/* 
+*   Table: directing_style.
+*   Catalog of directing styles (Epic Cinema, Neorealism, Psychological Thriller, etc.).
+*/
 CREATE TABLE directing_style (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the director table */
+/*
+*   Table: director.
+*   Subtype of person. The id is both PK and FK to person.id because it is the same row, not a copy. Table per type instead of nullable columns directly on person 
+*   (would leave directing_style_id/acting_method_id NULL on most rows, with nothing enforcing which role a person actually has) or a type discriminator column 
+*   (would push CASE WHEN logic into every query needing the role-specific attribute). This avoids both: no wasted nullable columns, no conditional logic.
+*/
 CREATE TABLE director (
     id CHAR(36),
     directing_style_id CHAR(36),
@@ -75,14 +107,20 @@ CREATE TABLE director (
         ON DELETE SET NULL
 );
 
-/* Creation of the acting_method table */
+/* 
+*   Table: acting_method.
+*   Catalog of acting methods/techniques (Stanislavski Method, Meisner Technique, Brechtian Epic Theatre.).
+*/
 CREATE TABLE acting_method (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the actor table */
+/*
+*   Table: actor.
+*   Same table per type pattern as director, see that table's comment for why. The id is PK and FK to person.id.
+*/
 CREATE TABLE actor (
     id CHAR(36),
     acting_method_id CHAR(36),
@@ -97,14 +135,20 @@ CREATE TABLE actor (
         ON DELETE SET NULL
 );
 
-/* Creation of the user_role table */
+/* 
+*   Table: user_role.
+*   Catalog of app user roles (ADMIN, ROLE.).
+*/
 CREATE TABLE user_role (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the app_user table */
+/*
+*   Table: app_user.
+*   The app's login/audience identity, you must see person's comment above for why this is a separate table instead of another person subtype.
+*/
 CREATE TABLE app_user (
     id CHAR(36) DEFAULT (UUID()),
     role_id CHAR(36) NOT NULL,
@@ -125,7 +169,10 @@ CREATE TABLE app_user (
 		ON DELETE RESTRICT
 );
 
-/* Creation of the production_company table */
+/* 
+*   Table: production_company.
+*   Companies involved in producing/distributing movies (Warner Bros. Pictures, A24, CJ ENM, etc.).
+*/
 CREATE TABLE production_company (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(200) NOT NULL UNIQUE,
@@ -137,14 +184,20 @@ CREATE TABLE production_company (
         ON DELETE SET NULL
 );
 
-/* Creation of the subscription_type table */
+/* 
+*   Table: subscription_type.
+*   Catalog of streaming subscription types (SUBSCRIPTION, RENT, FREE, PURCHASE.). 
+*/
 CREATE TABLE subscription_type (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the streaming_platform table */
+/* 
+*   Table: streaming_platform.
+*   Streaming platforms movies are available on (Netflix, HBO Max, Amazon Prime Video, Mubi.).
+*/
 CREATE TABLE streaming_platform (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL UNIQUE,
@@ -159,7 +212,13 @@ CREATE TABLE streaming_platform (
         ON DELETE SET NULL
 );
 
-/* Creation of the classification table */
+/*
+*   Table: classification.
+*   Content ratings (e.g. MPAA's G/PG/PG-13/R/NC-17). Not a pure lookup table, this carries classification_system, a description, and min_age alongside the code.
+*   COLUMN min_age is stored but not enforced anywhere: "a user can't review a movie below their classification's minimum age" would require comparing this table's 
+*   min_age against app_user.birth_dat, they are two different tables. A CHECK constraint can only validate columns within the same row, never reference another table, 
+*   so this rule can't be expressed there. It would need a TRIGGER or application layer validation.
+*/
 CREATE TABLE classification (
     id CHAR(36) DEFAULT (UUID()),
     classification_system VARCHAR(100) NOT NULL,
@@ -171,7 +230,13 @@ CREATE TABLE classification (
     PRIMARY KEY (id)
 );
 
-/* Creation of the movie table */
+/*
+*   Table: movie.
+*   The central entity which is referenced directly or indirectly by most other tables in the schema.
+*   COLUMN tmdb_id is UNIQUE, not the primary key, even though it's an obvious natural key candidate (a real, unique id from The Movie Database). Kept as a plain attribute 
+*   instead, so the schema's internal identity doesn't depend on an external system this app doesn't control. It's also nullable in practice: smaller or regional releases 
+*   aren't always catalogued in TMDB (see 'Embrace of the Serpent' in 001_seed_data.sql).
+*/
 CREATE TABLE movie (
     id CHAR(36) DEFAULT (UUID()),
     country_id CHAR(36),
@@ -191,7 +256,13 @@ CREATE TABLE movie (
         ON DELETE SET NULL
 );
 
-/* Creation of the review table */
+/*
+*   Table: review.
+*   Records an app_user's rating (1-10) and opinion of a movie. A user reviews each movie at most once (uq_user_movie).
+*   COLUMN rating is TINYINT rather than INT: the valid range is 1-10 (chk_rating), a single byte is more than enough, while INT would reserve 4 bytes for a value that never 
+*   exceeds 10.
+*   ON DELETE CASCADE on user_id and movie_id: a review has no meaning without both its user and its movie, it isn't valid orphaned data in this domain.
+*/
 CREATE TABLE review (
     id CHAR(36) DEFAULT (UUID()),
     user_id CHAR(36) NOT NULL,
@@ -213,7 +284,12 @@ CREATE TABLE review (
         UNIQUE (user_id, movie_id)
 );
 
-/* Creation of the movie_actor table */
+/*
+*   Table: movie_actor.
+*   Many to many junction between movie and actor, with the character played and whether the role was a lead.
+*   COLUMN is_lead is BOOLEAN, in MySQL that's an alias for TINYINT(1), not a distinct native type. Same underlying storage as the TINYINT used for review.rating, just a more 
+*   readable name here.
+*/
 CREATE TABLE movie_actor (
     movie_id CHAR(36) NOT NULL,
     actor_id CHAR(36) NOT NULL,
@@ -229,7 +305,10 @@ CREATE TABLE movie_actor (
         ON DELETE CASCADE
 );
 
-/* Creation of the movie_genre table */
+/* 
+*   Table: movie_genre.
+*   Many to many junction between movie and genre. 
+*/
 CREATE TABLE movie_genre (
     movie_id CHAR(36) NOT NULL,
     genre_id CHAR(36) NOT NULL,
@@ -242,14 +321,20 @@ CREATE TABLE movie_genre (
         ON DELETE CASCADE
 );
 
-/* Creation of the status_watchlist table */
+/* 
+*   Table: status_watchlist.
+*   Catalog of watchlist entry statuses (PENDING, WATCHING, WATCHED, DROPPED)
+*/
 CREATE TABLE status_watchlist (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(25) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the watchlist table */
+/* 
+*   Table: watchlist.
+*   Tracks which movies a user has added to their watchlist, and its current status. 
+*/
 CREATE TABLE watchlist (
     id CHAR(36) DEFAULT (UUID()),
     user_id CHAR(36) NOT NULL,
@@ -270,7 +355,13 @@ CREATE TABLE watchlist (
         UNIQUE (user_id, movie_id)
 );
 
-/* Creation of the movie_award table */
+/*
+*   Table: movie_award.
+*   Records movie award nominations/wins. Not a simple junction: Id is its own surrogate PK rather than a composite (movie_id, award_id), because the same movie can be 
+*   nominated for the same award multiple times across different categories or years (e.g. Parasite: 4 rows, 2 different awards, 3 different categories for the Oscar alone). 
+*   A composite (movie_id, award_id) PK would make that pair unique and reject all but the first of those rows. Real uniqueness is enforced instead by uq_movie_nomination
+*   (movie_id, award_id, year, category_id).
+*/
 CREATE TABLE movie_award (
     id CHAR(36) DEFAULT (UUID()),
     movie_id CHAR(36) NOT NULL,
@@ -293,7 +384,11 @@ CREATE TABLE movie_award (
         UNIQUE (movie_id, award_id, year, category_id)
 );
 
-/* Creation of the person_award table */
+/*
+*   Table: person_award.
+*   Same pattern as movie_award, you must see that table's comment for why it has its own surrogate PK instead of a composite one. Same structure, applied to individual 
+*   people instead of movies.
+*/
 CREATE TABLE person_award (
     id CHAR(36) DEFAULT (UUID()),
     person_id CHAR(36) NOT NULL,
@@ -316,14 +411,20 @@ CREATE TABLE person_award (
         UNIQUE (person_id, award_id, year, category_id)
 );
 
-/* Creation of the company_role table */
+/* 
+*   Table: company_role.
+*   Catalog of roles a production company can have on a movie (producer, distributor, etc.). 
+*/
 CREATE TABLE company_role (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the movie_company table */
+/* 
+*   Table: movie_company.
+*   Many to many junction between movie and production_company, with the company's role on that movie. 
+*/
 CREATE TABLE movie_company (
     movie_id CHAR(36) NOT NULL,
     company_id CHAR(36) NOT NULL,
@@ -340,7 +441,11 @@ CREATE TABLE movie_company (
         ON DELETE RESTRICT
 );
 
-/* Creation of the movie_platform table */
+/*
+*   Table: movie_platform.
+*   Many to many junction between movie and streaming_platform, with the availability window on that platform.
+*   CONSTRAINT chk_dates: available_until must be NULL or later than available_since, the NULL meaning "still available, no end date set".
+*/
 CREATE TABLE movie_platform (
     movie_id CHAR(36) NOT NULL,
     platform_id CHAR(36) NOT NULL,
@@ -357,14 +462,20 @@ CREATE TABLE movie_platform (
         ON DELETE CASCADE
 );
 
-/* Creation of the director_role table */
+/* 
+*   Table: director_role.
+*   Catalog of roles a director can have on a movie (director, co-director, etc.). 
+*/
 CREATE TABLE director_role (
     id CHAR(36) DEFAULT (UUID()),
     name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
-/* Creation of the movie_director table */
+/* 
+*   Table: movie_director.
+*   Many to many junction between movie and director, with the director's role on that movie. 
+*/
 CREATE TABLE movie_director (
     movie_id CHAR(36) NOT NULL,
     director_id CHAR(36) NOT NULL,
