@@ -1,0 +1,10 @@
+#   MySQL Workbench auto generates a backup copy of the model file on save. Redundant here, in this repo Git already keeps the real .mwb's history, no need to track a second 
+#   copy of it.
+    *.mwb.bak
+
+#   OS generated clutter, not project files. Thumbs.db and desktop.ini are similar, Windows creates them while browsing folders. .DS_Store never comes from a Window machine 
+#   (that's macOS's Finder), but it's kept anyway at near-zero cost, if anyone ever clones this repo on a Mac and browses it, .DS_Store gets created there and would otherwise 
+#   land in the shared repo uninvited.
+    .DS_Store
+    Thumbs.db
+    desktop.ini
