@@ -1,3 +1,8 @@
-# Auto detect text files and perform LF normalization
-* text=auto
-*.sql linguist-detectable=true
+#   Normalizes line endings to LF in the repository on every commit, regardless of which OS edited the file. Doesn't touch what your local working copy looks like, 
+#   that's core.autocrlf's job, this only guarantees everyone's *stored* copy matches, so diffs never show a whole file as "changed" over line ending noise alone.
+    * text = auto
+
+#   Linguist already syntax highlights .sql as SQL on its own, that part needs no help. But Linguist classifies SQL as a "data" language and excludes data languages 
+#   from the repo's language stats bar by default, same treatment as JSON or CSV. This line overrides that one exclusion so the .sql files here count toward
+#   "Languages used" instead of being silently left out of it.
+    * .sql linguist-detectable = true
